@@ -4,6 +4,11 @@ import { useAuth } from '../context/AuthContext';
 import { Lock, Mail, ArrowRight } from 'lucide-react';
 import api from '../services/api';
 
+// TAMBAHKAN IMPORT INI DI ATAS (Agar terbaca oleh bundler Vercel)
+import gambarBg from '../assets/gambar.jpeg';
+import gambar1 from '../assets/gambar1.jpeg';
+import gambar2 from '../assets/gambar2.jpeg';
+
 const Login = () => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState('');
@@ -61,12 +66,12 @@ const Login = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div style={{ ...styles.container, backgroundImage: `url(${gambarBg})` }}>
       {/* Gambar Pojok Kiri Atas */}
-      <img src="/src/assets/gambar1.jpeg" alt="Logo Kiri" style={styles.topLeftImage} />
+      <img src={gambar1} alt="Logo Kiri" style={styles.topLeftImage} />
 
       {/* Gambar Pojok Kanan Atas */}
-      <img src="/src/assets/gambar2.jpeg" alt="Logo Kanan" style={styles.topRightImage} />
+      <img src={gambar2} alt="Logo Kanan" style={styles.topRightImage} />
 
       <div style={styles.card}>
         <div style={styles.header}>
@@ -158,25 +163,25 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: 'url("/src/assets/gambar.jpeg")',
+    // Background image dipindahkan ke inline style utama agar bisa membaca variabel import
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     padding: '1rem',
-    position: 'relative', // Diperlukan agar posisi gambar absolute mengikut kontainer ini
+    position: 'relative',
   },
   topLeftImage: {
     position: 'absolute',
     top: '20px',
     left: '20px',
-    height: '60px', // Sesuaikan ukuran tinggi gambar sesuai kebutuhan
+    height: '60px',
     objectFit: 'contain',
   },
   topRightImage: {
     position: 'absolute',
     top: '20px',
     right: '20px',
-    height: '60px', // Sesuaikan ukuran tinggi gambar sesuai kebutuhan
+    height: '60px',
     objectFit: 'contain',
   },
   card: {
