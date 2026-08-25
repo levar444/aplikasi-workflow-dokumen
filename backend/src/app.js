@@ -11,14 +11,13 @@ const errorMiddleware = require('./middleware/errorMiddleware');
 
 const app = express();
 
+// Konfigurasi CORS yang mengizinkan semua domain (termasuk Vercel dan localhost)
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: true,
   credentials: true
 }));
 
 app.use(express.json());
-
-// Menyediakan akses folder uploads secara publik agar bisa dilihat langsung via browser
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 app.use('/api/auth', authRoutes);

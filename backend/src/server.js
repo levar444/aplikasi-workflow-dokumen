@@ -11,8 +11,9 @@ const errorMiddleware = require('./middleware/errorMiddleware');
 
 const app = express();
 
+// Konfigurasi CORS yang mengizinkan semua domain (termasuk Vercel dan localhost)
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: true,
   credentials: true
 }));
 
