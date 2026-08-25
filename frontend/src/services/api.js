@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// Otomatis memilih URL Railway jika diakses online, atau localhost jika di laptop
 const baseURL = window.location.hostname === 'localhost' 
   ? 'http://localhost:5001/api' 
   : 'https://aplikasi-workflow-dokumen-production.up.railway.app/api';
@@ -12,7 +11,6 @@ const api = axios.create({
   },
 });
 
-// Interceptor untuk otomatis menyertakan token di setiap request
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
