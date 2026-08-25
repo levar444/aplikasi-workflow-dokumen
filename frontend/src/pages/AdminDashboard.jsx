@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// Impor instance api dari file api.js Anda (sesuaikan path folder jika perlu, misal '../services/api')
+import api from '../services/api'; 
 
 export default function AdminDashboard() {
   const [users, setUsers] = useState([]);
@@ -9,19 +10,10 @@ export default function AdminDashboard() {
   const [newRole, setNewRole] = useState('USER1');
   const navigate = useNavigate();
 
-  // URL Backend (Sesuaikan dengan base URL API Anda, misal /api/users)
-  const API_URL = 'http://localhost:5001/api/users';
-
-  // Header helper untuk menyertakan token login admin
-  const getAuthHeader = () => {
-    const token = localStorage.getItem('token');
-    return { headers: { Authorization: `Bearer ${token}` } };
-  };
-
-  // 1. Ambil data semua user dari backend
+  // 1. Ambil data semua user dari backend menggunakan instance api yang otomatis mendeteksi Railway/Local
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(API_URL, getAuthHeader());
+      const response = await api.get('/users');
       const userData = response.data.data || response.data;
       setUsers(userData);
       setLoading(false);
@@ -41,15 +33,14 @@ export default function AdminDashboard() {
     if (!selectedUser) return;
 
     try {
-      await axios.put(
-        `${API_URL}/${selectedUser.id}`,
+      await api.put(
+        `/users/${selectedUser.id}`,
         {
           name: selectedUser.name,
           email: selectedUser.email,
           role: newRole,
           isActive: selectedUser.isActive
-        },
-        getAuthHeader()
+        }
       );
       alert('Berhasil! Peran/Akses user berhasil diubah.');
       setSelectedUser(null);
