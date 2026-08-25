@@ -1,0 +1,134 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                  String               @id @default(uuid())
+  email               String               @unique
+  password            String
+  role                String               @default("USER4") 
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+
+  documents           Document[]           @relation("UploadedDocuments")
+  workflowHistories   WorkflowHistory[]
+  revisions           Revision[]           @relation("RevisionRequester")
+  passwordResetTokens PasswordResetToken[]
+  notifications       Notification[]
+  comments            Comment[]            // <-- Relasi ke komentar
+}
+
+model Document {
+  id                String            @id @default(uuid())
+  documentNumber    String            @unique
+  status            String            @default("DRAFT_USER4") 
+  comment           String?           
+  uploadedBy        String
+  uploader          User              @relation("UploadedDocuments", fields: [uploadedBy], references: [id])
+  isDeleted         Boolean           @default(false) 
+  deletedAt         DateTime?         
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  documentData      DocumentData?
+  fileUpload        FileUpload?
+  workflowHistories WorkflowHistory[]
+  revisions         Revision[]
+  comments          Comment[]         // <-- Relasi ke komentar dokumen
+}
+
+model Comment {
+  id         String   @id @default(uuid())
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message    String   
+  createdAt  DateTime @default(now())
+}
+
+model DocumentData {
+  id             String   @id @default(uuid())
+  documentId     String   @unique
+  document       Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  fullName       String
+  nik            String
+  documentNumber String
+  date           String
+  address        String
+  phone          String
+  email          String
+  documentType   String
+  description    String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model FileUpload {
+  id           String   @id @default(uuid())
+  documentId   String   @unique
+  document     Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  fileName     String
+  originalName String
+  filePath     String
+  mimeType     String
+  size         Int
+  createdAt    DateTime @default(now())
+}
+
+model Template {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  fileName    String
+  filePath    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model WorkflowHistory {
+  id             String   @id @default(uuid())
+  documentId     String
+  document       Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  previousStatus String
+  newStatus      String
+  note           String?
+  createdAt      DateTime @default(now())
+}
+
+model Revision {
+  id          String   @id @default(uuid())
+  documentId  String
+  document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  requestedBy String
+  requester   User     @relation("RevisionRequester", fields: [requestedBy], references: [id])
+  targetUser  String
+  reason      String
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
