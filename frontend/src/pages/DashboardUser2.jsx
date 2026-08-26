@@ -13,32 +13,21 @@ export default function DashboardUser2() {
 
   const getFileUrl = (filePath) => {
     if (!filePath) return null;
-    
-    // Normalisasi path slash (\ menjadi /)
     let cleanPath = filePath.replace(/\\/g, '/');
-    
-    // Jika path mengandung 'uploads/', ambil nama file atau sub-path setelahnya secara akurat
     if (cleanPath.includes('uploads/')) {
       const parts = cleanPath.split('uploads/');
-      cleanPath = parts[parts.length - 1]; // Ambil nama file terakhir saja
+      cleanPath = parts[parts.length - 1];
     }
-    
-    // Bersihkan awalan garis miring jika ada
     if (cleanPath.startsWith('/')) {
       cleanPath = cleanPath.slice(1);
     }
-
-    // Paksa base URL ke domain utama Railway (BUKAN yang berakhiran /api)
     const baseDomain = 'https://aplikasi-workflow-dokumen-production.up.railway.app';
-    
-    // Gabungkan dengan folder /uploads/ di server
     const fileUrl = `${baseDomain}/uploads/${cleanPath}`;
 
     const lower = cleanPath.toLowerCase();
     if (lower.endsWith('.doc') || lower.endsWith('.docx') || lower.endsWith('.xls') || lower.endsWith('.xlsx') || lower.endsWith('.ppt') || lower.endsWith('.pptx')) {
       return `https://docs.google.com/gview?url=${encodeURIComponent(fileUrl)}&embedded=true`;
     }
-
     return fileUrl;
   };
 
