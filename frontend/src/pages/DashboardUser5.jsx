@@ -143,8 +143,8 @@ export default function DashboardUser5() {
           
           <div style={{ marginBottom: '20px' }}>
             <p style={{ fontSize: '11px', color: '#9ca3af', textTransform: 'uppercase', fontWeight: 'bold', margin: '0 0 4px 0' }}>Pengguna</p>
-            <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#2563eb', display: 'block' }}>USER5</span>
-            <span style={{ fontSize: '11px', color: '#4b5563', fontWeight: '600' }}>PTE</span>
+            <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#2563eb', display: 'block' }}>PTE</span>
+            <span style={{ fontSize: '11px', color: '#4b5563', fontWeight: '600' }}>USER5</span>
           </div>
 
           <div style={{ backgroundColor: '#f8fafc', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', marginBottom: '20px' }}>
