@@ -77,6 +77,9 @@ const Login = () => {
       <div style={styles.card}>
         <div style={styles.header}>
           <h2 style={styles.title}>SIVERBET</h2>
+          <p style={{ ...styles.subtitle, fontWeight: '600', color: '#334155', marginBottom: '0.25rem' }}>
+            Sistem Informasi & Verifikasi Dokumen Balai Embrio Ternak
+          </p>
           <p style={styles.subtitle}>
             {isRegistering ? 'Daftar akun baru untuk mulai input data' : 'Silakan masuk dengan akun Anda untuk melanjutkan'}
           </p>
@@ -208,7 +211,7 @@ const styles = {
     fontSize: '1.5rem',
     fontWeight: '700',
     color: '#0f172a',
-    marginBottom: '0.5rem',
+    marginBottom: '0.25rem', // Disesuaikan sedikit agar jarak dengan subtitle baru pas
   },
   subtitle: {
     fontSize: '0.875rem',
