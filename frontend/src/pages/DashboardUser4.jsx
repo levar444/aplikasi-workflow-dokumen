@@ -155,6 +155,7 @@ export default function DashboardUser4() {
     if (s.includes('USER2')) return 'Sudah dikirim ke User 2';
     if (s.includes('USER3')) return 'Sudah dikirim ke User 3';
     if (s.includes('USER4')) return 'Sudah di User 4 (Officer)';
+    if (s.includes('USER5')) return 'Sudah dikirim ke User 5';
     return status;
   };
 
@@ -263,7 +264,7 @@ export default function DashboardUser4() {
                   data.map((doc) => {
                     const docTitle = doc.title || doc.documentData?.fullName || doc.documentData?.title || '-';
                     const rawFilePath = doc.fileUpload?.filePath || doc.filePath || doc.file;
-                    const creatorName = doc.user?.username || doc.creator || 'User 4 (Anda / Officer)';
+                    const creatorName = doc.user?.username || doc.creator || 'User 4 (Anda)';
                     const isAnimating = animatingId === doc.id;
                     const progressInfo = getProgressHistory(doc.status);
 
@@ -289,6 +290,7 @@ export default function DashboardUser4() {
                           <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER1')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#2563eb', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>✨ Kirim U1</button>
                           <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER2')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#0284c7', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U2</button>
                           <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER3')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#059669', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U3</button>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER5')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#7c3aed', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U5</button>
                           <button onClick={() => handleDelete(doc.id)} style={{ padding: '6px 8px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Hapus</button>
                         </td>
                       </tr>

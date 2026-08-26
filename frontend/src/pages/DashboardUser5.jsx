@@ -9,6 +9,11 @@ export default function DashboardUser5() {
   const [loading, setLoading] = useState(false);
   const [animatingId, setAnimatingId] = useState(null);
   const [comments, setComments] = useState({});
+  
+  const [documentNumber, setDocumentNumber] = useState('');
+  const [title, setTitle] = useState('');
+  const [file, setFile] = useState(null);
+  
   const navigate = useNavigate();
 
   const getFileUrl = (filePath) => {
@@ -42,7 +47,7 @@ export default function DashboardUser5() {
       
       const filtered = allDocs.filter(doc => {
         const status = (doc.status || '').trim().toUpperCase();
-        return status.includes('USER5');
+        return status === '' || status === 'DRAFT' || status.includes('USER5');
       });
       
       setData(filtered);
@@ -66,6 +71,39 @@ export default function DashboardUser5() {
 
   const handleCommentChange = (id, value) => {
     setComments(prev => ({ ...prev, [id]: value }));
+  };
+
+  const handleSaveDocument = async (e) => {
+    e.preventDefault();
+    if (!documentNumber || !title) {
+      alert('Nomor dokumen dan judul harus diisi!');
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      const formData = new FormData();
+      formData.append('documentNumber', documentNumber);
+      formData.append('title', title);
+      if (file) formData.append('file', file);
+
+      await api.post('/documents', formData, {
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      alert('Dokumen berhasil disimpan!');
+      setDocumentNumber('');
+      setTitle('');
+      setFile(null);
+      fetchDocuments();
+    } catch (err) {
+      console.error("Gagal menyimpan dokumen:", err);
+      const errorMessage = err.response?.data?.message || 'Gagal menyimpan dokumen. Periksa kembali ukuran file atau nomor dokumen.';
+      alert(errorMessage);
+    }
   };
 
   const handleAction = async (id, targetStatus) => {
@@ -113,11 +151,15 @@ export default function DashboardUser5() {
     if (!status) return 'Belum dikirim (Draft)';
     const s = status.toUpperCase();
     if (s.includes('APPROVED')) return '✨ Selesai (Final Approved)';
+    if (s.includes('USER1')) return 'Sudah dikirim ke User 1';
+    if (s.includes('USER2')) return 'Sudah dikirim ke User 2';
+    if (s.includes('USER3')) return 'Sudah dikirim ke User 3';
+    if (s.includes('USER4')) return 'Sudah dikirim ke User 4';
     if (s.includes('USER5')) return 'Sudah di User 5';
     return status;
   };
 
-  const activeCount = data.length;
+  const draftCount = data.filter(d => (d.status || '').trim().toLowerCase() === 'draft' || !(d.status)).length;
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f3f4f6', fontFamily: 'sans-serif', margin: 0 }}>
@@ -148,10 +190,10 @@ export default function DashboardUser5() {
           </div>
 
           <div style={{ backgroundColor: '#f8fafc', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', marginBottom: '20px' }}>
-            <p style={{ fontSize: '11px', color: '#64748b', fontWeight: 'bold', margin: '0 0 8px 0', textTransform: 'uppercase' }}>Aktivitas User 5</p>
+            <p style={{ fontSize: '11px', color: '#64748b', fontWeight: 'bold', margin: '0 0 8px 0', textTransform: 'uppercase' }}>Status Input</p>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#334155', marginBottom: '4px' }}>
-              <span>Total Diproses:</span>
-              <span style={{ fontWeight: 'bold', color: '#059669' }}>{activeCount} Dok</span>
+              <span>Draft Tersimpan:</span>
+              <span style={{ fontWeight: 'bold', color: '#4b5563' }}>{draftCount} Dok</span>
             </div>
           </div>
 
@@ -176,8 +218,30 @@ export default function DashboardUser5() {
           <h1 style={{ margin: 0, fontSize: '18px', color: '#1f2937' }}>Halo, Pengguna (User 5 - PTE)</h1>
           <img src={gambar2} alt="Logo Kanan" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '50%' }} />
         </div>
+
+        <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '25px' }}>
+          <h3 style={{ margin: '0 0 15px 0', fontSize: '15px', color: '#1f2937' }}>Buat / Input Dokumen Baru</h3>
+          <form onSubmit={handleSaveDocument} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr auto', gap: '15px', alignItems: 'end' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', color: '#4b5563', marginBottom: '5px' }}>No. Dokumen</label>
+              <input type="text" placeholder="Contoh: DOC/001" value={documentNumber} onChange={(e) => setDocumentNumber(e.target.value)} style={{ width: '100%', padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '13px', boxSizing: 'border-box' }} />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', color: '#4b5563', marginBottom: '5px' }}>Judul Dokumen</label>
+              <input type="text" placeholder="Masukkan judul dokumen" value={title} onChange={(e) => setTitle(e.target.value)} style={{ width: '100%', padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '13px', boxSizing: 'border-box' }} />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', color: '#4b5563', marginBottom: '5px' }}>Upload File</label>
+              <input type="file" onChange={(e) => setFile(e.target.files[0])} style={{ width: '100%', fontSize: '12px' }} />
+            </div>
+            <div>
+              <button type="submit" style={{ padding: '9px 16px', backgroundColor: '#2563eb', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Simpan Dokumen</button>
+            </div>
+          </form>
+        </div>
+
         <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-          <h3 style={{ margin: '0 0 15px 0', fontSize: '16px', color: '#1f2937' }}>Proses Dokumen User 5</h3>
+          <h3 style={{ margin: '0 0 15px 0', fontSize: '15px', color: '#1f2937' }}>Daftar Dokumen</h3>
           <div style={{ width: '100%', overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '950px' }}>
               <thead>
@@ -198,7 +262,8 @@ export default function DashboardUser5() {
                   <tr><td colSpan="7" style={{ padding: '20px', textAlign: 'center', color: '#6b7280', fontSize: '13px' }}>Tidak ada dokumen.</td></tr>
                 ) : (
                   data.map((doc) => {
-                    const creatorName = doc.user?.username || doc.creator || 'User 4 (Officer)';
+                    const docTitle = doc.title || doc.documentData?.fullName || doc.documentData?.title || '-';
+                    const creatorName = doc.user?.username || doc.creator || 'User 5 (Anda)';
                     const isAnimating = animatingId === doc.id;
                     const progressInfo = getProgressHistory(doc.status);
                     const rawFilePath = doc.fileUpload?.filePath || doc.filePath || doc.file;
@@ -206,7 +271,7 @@ export default function DashboardUser5() {
                     return (
                       <tr key={doc.id} className={isAnimating ? 'animate-approval' : ''}>
                         <td style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>{doc.documentNumber}</td>
-                        <td style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>{doc.documentData?.fullName || doc.title || '-'}</td>
+                        <td style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>{docTitle}</td>
                         <td style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', fontWeight: '500', color: '#4f46e5' }}>{creatorName}</td>
                         <td style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', color: '#0369a1', fontWeight: '500' }}>{progressInfo}</td>
                         <td style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>
@@ -223,6 +288,9 @@ export default function DashboardUser5() {
                         </td>
                         <td style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>
                           <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER1')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#059669', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>✨ Kirim U1</button>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER2')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#2563eb', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U2</button>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER3')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#d97706', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U3</button>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER4')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U4</button>
                           <button onClick={() => handleDelete(doc.id)} style={{ padding: '6px 8px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Hapus</button>
                         </td>
                       </tr>
