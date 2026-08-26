@@ -75,7 +75,7 @@ const Login = () => {
 
       <div style={styles.card}>
         <div style={styles.header}>
-          <h2 style={styles.title}>Sistem Workflow Dokumen</h2>
+          <h2 style={styles.title}>BALAI EMBRIO TERNAK</h2>
           <p style={styles.subtitle}>
             {isRegistering ? 'Daftar akun baru untuk mulai input data' : 'Silakan masuk dengan akun Anda untuk melanjutkan'}
           </p>
