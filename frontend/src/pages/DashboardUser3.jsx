@@ -24,7 +24,13 @@ export default function DashboardUser3() {
     if (cleanPath.startsWith('/')) {
       cleanPath = cleanPath.slice(1);
     }
-    const fileUrl = `http://localhost:5001/${cleanPath}`;
+
+    // AMBIL BASE URL DARI INSTANCE API AXIOS ATAU ENVIRONMENT VARIABLE
+    // (Pastikan api.defaults.baseURL mengarah ke backend Railway Anda)
+    const baseURL = api.defaults.baseURL || 'https://aplikasi-workflow-dokumen-production.up.railway.app';
+    
+    // Hapus garis miring ganda jika ada
+    const fileUrl = `${baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL}/${cleanPath}`;
 
     const lower = cleanPath.toLowerCase();
     if (lower.endsWith('.doc') || lower.endsWith('.docx') || lower.endsWith('.xls') || lower.endsWith('.xlsx') || lower.endsWith('.ppt') || lower.endsWith('.pptx')) {
