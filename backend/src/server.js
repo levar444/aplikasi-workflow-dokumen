@@ -18,7 +18,11 @@ app.use(cors({
 }));
 
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
+// PERBAIKAN: Mengarahkan folder uploads dengan aman relatif terhadap file server.js ini
+const uploadDir = path.join(__dirname, 'uploads');
+app.use('/uploads', express.static(uploadDir));
+app.use('/api/uploads', express.static(uploadDir)); // Menambahkan alias agar /api/uploads/xxx bisa diakses
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
