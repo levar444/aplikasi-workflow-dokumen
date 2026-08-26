@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Lock, Mail, ArrowRight } from 'lucide-react';
+import { Lock, Mail, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import api from '../services/api';
 
 // TAMBAHKAN IMPORT INI DI ATAS (Agar terbaca oleh bundler Vercel)
@@ -14,6 +14,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // State untuk toggle lihat password
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   const [loading, setLoading] = useState(false);
@@ -121,13 +122,21 @@ const Login = () => {
             <div style={styles.inputWrapper}>
               <Lock size={18} style={styles.inputIcon} />
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                style={styles.input}
+                style={styles.inputWithEye}
               />
+              {/* Tombol Mata */}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={styles.eyeButton}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
           </div>
 
@@ -163,7 +172,6 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    // Background image dipindahkan ke inline style utama agar bisa membaca variabel import
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
@@ -248,6 +256,7 @@ const styles = {
     position: 'absolute',
     left: '1rem',
     color: '#94a3b8',
+    zIndex: 1,
   },
   input: {
     width: '100%',
@@ -256,6 +265,26 @@ const styles = {
     border: '1px solid #cbd5e1',
     fontSize: '0.875rem',
     outline: 'none',
+  },
+  inputWithEye: {
+    width: '100%',
+    padding: '0.75rem 2.75rem 0.75rem 2.75rem',
+    borderRadius: '0.5rem',
+    border: '1px solid #cbd5e1',
+    fontSize: '0.875rem',
+    outline: 'none',
+  },
+  eyeButton: {
+    position: 'absolute',
+    right: '1rem',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    color: '#94a3b8',
+    display: 'flex',
+    alignItems: 'center',
+    padding: 0,
+    zIndex: 1,
   },
   inputNoIcon: {
     width: '100%',
