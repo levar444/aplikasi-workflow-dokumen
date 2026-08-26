@@ -2,7 +2,8 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-const uploadDir = path.join(__dirname, '../../uploads');
+// Diubah menjadi mundur sekali saja agar sejajar dengan server.js
+const uploadDir = path.join(__dirname, '../uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -31,6 +32,7 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({
   storage: storage,
+  fileFilter: fileFilter, // Ditambahkan kembali agar filter file aktif
   limits: { 
     fileSize: 50 * 1024 * 1024 // Diubah menjadi 50 MB (Anda bisa mengganti angka 50 ini sesuai keinginan)
   }
