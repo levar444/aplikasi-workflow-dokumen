@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs'); // Tambahkan modul fs
 
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -11,7 +12,6 @@ const errorMiddleware = require('./middleware/errorMiddleware');
 
 const app = express();
 
-// Konfigurasi CORS yang mengizinkan semua domain (termasuk Vercel dan localhost)
 app.use(cors({
   origin: true,
   credentials: true
@@ -19,10 +19,14 @@ app.use(cors({
 
 app.use(express.json());
 
-// PERBAIKAN: Mengarahkan folder uploads dengan benar sesuai posisi file server.js
+// PASTIKAN FOLDER UPLOADS ADA (Jika belum ada di server, otomatis dibuat)
 const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)){
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
 app.use('/uploads', express.static(uploadDir));
-app.use('/api/uploads', express.static(uploadDir)); // Menambahkan alias agar /api/uploads/xxx dapat diakses
+app.use('/api/uploads', express.static(uploadDir));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
