@@ -143,7 +143,7 @@ export default function DashboardUser2() {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px' }}>
             <img src={gambar1} alt="Logo Kiri" style={{ width: '32px', height: '32px', objectFit: 'contain', borderRadius: '4px' }} />
-            <h2 style={{ fontSize: '16px', fontWeight: 'bold', color: '#1f2937', margin: 0 }}>Workflow System</h2>
+            <h2 style={{ fontSize: '16px', fontWeight: 'bold', color: '#1f2937', margin: 0 }}>SIVERBET</h2>
           </div>
           <div style={{ marginBottom: '20px' }}>
             <p style={{ fontSize: '11px', color: '#9ca3af', textTransform: 'uppercase', fontWeight: 'bold', margin: '0 0 4px 0' }}>Pengguna</p>
