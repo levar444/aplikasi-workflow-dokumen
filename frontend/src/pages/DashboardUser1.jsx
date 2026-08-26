@@ -148,7 +148,8 @@ export default function DashboardUser1() {
           
           <div style={{ marginBottom: '20px' }}>
             <p style={{ fontSize: '11px', color: '#9ca3af', textTransform: 'uppercase', fontWeight: 'bold', margin: '0 0 4px 0' }}>Pengguna</p>
-            <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#2563eb' }}>USER1 (Final Approver)</span>
+            <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#2563eb', display: 'block' }}>USER1</span>
+            <span style={{ fontSize: '11px', color: '#4b5563', fontWeight: '600' }}>Kepala Balai</span>
           </div>
 
           <div style={{ backgroundColor: '#f8fafc', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', marginBottom: '20px' }}>
@@ -181,7 +182,7 @@ export default function DashboardUser1() {
       {/* KONTEN UTAMA (KANAN) */}
       <div style={{ flex: 1, padding: '30px', overflowY: 'auto', boxSizing: 'border-box' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid #e5e7eb', paddingBottom: '15px' }}>
-          <h1 style={{ margin: 0, fontSize: '18px', color: '#1f2937' }}>Halo, Pengguna (User 1 - Final Approver)</h1>
+          <h1 style={{ margin: 0, fontSize: '18px', color: '#1f2937' }}>Halo, Pengguna (User 1 - Kepala Balai)</h1>
           <img src={gambar2} alt="Logo Kanan" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '50%' }} />
         </div>
         
