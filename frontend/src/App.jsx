@@ -7,6 +7,7 @@ import DashboardUser1 from './pages/DashboardUser1';
 import DashboardUser2 from './pages/DashboardUser2';
 import DashboardUser3 from './pages/DashboardUser3';
 import DashboardUser4 from './pages/DashboardUser4';
+import DashboardUser5 from './pages/DashboardUser5'; // <-- Ditambahkan untuk User 5
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/dashboard/user2" element={<DashboardUser2 />} />
           <Route path="/dashboard/user3" element={<DashboardUser3 />} />
           <Route path="/dashboard/user4" element={<DashboardUser4 />} />
+          <Route path="/dashboard/user5" element={<DashboardUser5 />} /> {/* <-- Ditambahkan rute User 5 */}
 
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
