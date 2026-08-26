@@ -176,10 +176,12 @@ export default function DashboardUser4() {
       {/* SIDEBAR (KIRI) */}
       <div style={{ width: '260px', backgroundColor: '#ffffff', borderRight: '1px solid #e5e7eb', padding: '24px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxSizing: 'border-box' }}>
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
             <img src={gambar1} alt="Logo Kiri" style={{ width: '32px', height: '32px', objectFit: 'contain', borderRadius: '4px' }} />
             <h2 style={{ fontSize: '16px', fontWeight: 'bold', color: '#1f2937', margin: 0 }}>SIVERBET</h2>
           </div>
+          <p style={{ fontSize: '11px', color: '#4b5563', margin: '0 0 25px 0', lineHeight: '1.3' }}>Sistem Informasi & Verifikasi Dokumen Balai Embrio Ternak</p>
+          
           <div style={{ marginBottom: '20px' }}>
             <p style={{ fontSize: '11px', color: '#9ca3af', textTransform: 'uppercase', fontWeight: 'bold', margin: '0 0 4px 0' }}>Pengguna</p>
             <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#2563eb' }}>USER4 (Document Officer)</span>
