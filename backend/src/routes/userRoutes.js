@@ -4,8 +4,8 @@ const { getUsers, createUser, updateUser, updateStatus, deleteUser } = require('
 const authMiddleware = require('../middleware/authMiddleware');
 const roleMiddleware = require('../middleware/roleMiddleware');
 
-// Izinkan ADMIN (dan/atau USER1) untuk mengakses manajemen user
-router.use(authMiddleware, roleMiddleware(['ADMIN', 'USER1']));
+// Izinkan ADMIN, USER1, USER2, USER3, dan USER4 untuk mengakses manajemen user
+router.use(authMiddleware, roleMiddleware(['ADMIN', 'USER1', 'USER2', 'USER3', 'USER4']));
 
 router.get('/', getUsers);
 router.post('/', createUser);
