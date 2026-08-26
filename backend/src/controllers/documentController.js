@@ -156,9 +156,16 @@ const createDocument = async (req, res, next) => {
       userId = defaultUser.id;
     }
 
+    // Menentukan status draft awal secara dinamis berdasarkan role user yang sedang login
+    let initialStatus = 'DRAFT_USER4';
+    const userRole = req.user?.role;
+    if (userRole === 'USER5') initialStatus = 'DRAFT_USER5';
+    else if (userRole === 'USER3') initialStatus = 'DRAFT_USER3';
+    else if (userRole === 'USER2') initialStatus = 'DRAFT_USER2';
+
     const createData = {
       documentNumber: docNumber,
-      status: 'DRAFT_USER4',
+      status: initialStatus,
       uploadedBy: userId,
       documentData: {
         create: {
@@ -168,7 +175,7 @@ const createDocument = async (req, res, next) => {
           date: req.body?.date || new Date().toISOString().split('T')[0],
           address: req.body?.address || '-',
           phone: req.body?.phone || '-',
-          email: req.body?.email || 'user4@gmail.com',
+          email: req.body?.email || req.user?.email || 'user@gmail.com',
           documentType: req.body?.documentType || 'GENERAL',
           description: docTitle
         }
@@ -195,7 +202,7 @@ const createDocument = async (req, res, next) => {
       }
     });
 
-    await logWorkflow(newDoc.id, userId, 'CREATED', 'DRAFT_USER4', 'Membuat draft dokumen awal.');
+    await logWorkflow(newDoc.id, userId, 'CREATED', initialStatus, 'Membuat draft dokumen awal.');
 
     res.status(201).json({
       success: true,
@@ -254,7 +261,8 @@ const submitDocument = async (req, res, next) => {
 
     let nextStatus = bodyTargetStatus;
     if (!nextStatus) {
-      if (doc.status === 'DRAFT_USER4' || doc.status === 'REVISION_USER4') nextStatus = 'SUBMITTED_TO_USER3';
+      if (doc.status === 'DRAFT_USER5' || doc.status === 'REVISION_USER5') nextStatus = 'SUBMITTED_TO_USER4';
+      else if (doc.status === 'DRAFT_USER4' || doc.status === 'REVISION_USER4') nextStatus = 'SUBMITTED_TO_USER3';
       else if (doc.status === 'DRAFT_USER3' || doc.status === 'REVISION_USER3') nextStatus = 'SUBMITTED_TO_USER2';
       else if (doc.status === 'DRAFT_USER2' || doc.status === 'REVISION_USER2') nextStatus = 'SUBMITTED_TO_USER1';
     }
@@ -358,6 +366,7 @@ const revisionDocument = async (req, res, next) => {
     if (userRole === 'USER1') { targetStatus = 'REVISION_USER2'; targetUserRole = 'USER2'; }
     else if (userRole === 'USER2') { targetStatus = 'REVISION_USER3'; targetUserRole = 'USER3'; }
     else if (userRole === 'USER3') { targetStatus = 'REVISION_USER4'; targetUserRole = 'USER4'; }
+    else if (userRole === 'USER4') { targetStatus = 'REVISION_USER5'; targetUserRole = 'USER5'; }
 
     const updated = await prisma.document.update({
       where: { id },
@@ -422,6 +431,7 @@ const rollbackDocument = async (req, res, next) => {
     if (targetUser === 'USER2') { targetStatus = 'DRAFT_USER2'; message = 'Dikembalikan ke User 2.'; }
     else if (targetUser === 'USER3') { targetStatus = 'DRAFT_USER3'; message = 'Dikembalikan ke User 3.'; }
     else if (targetUser === 'USER4') { targetStatus = 'DRAFT_USER4'; message = 'Dikembalikan ke User 4.'; }
+    else if (targetUser === 'USER5') { targetStatus = 'DRAFT_USER5'; message = 'Dikembalikan ke User 5.'; }
     else { return res.status(400).json({ success: false, message: 'Target rollback tidak valid.' }); }
 
     const updated = await prisma.document.update({
@@ -465,6 +475,7 @@ const draftDocument = async (req, res, next) => {
     if (doc.status === 'SUBMITTED_TO_USER1') targetStatus = 'DRAFT_USER2';
     else if (doc.status === 'SUBMITTED_TO_USER2') targetStatus = 'DRAFT_USER3';
     else if (doc.status === 'SUBMITTED_TO_USER3') targetStatus = 'DRAFT_USER4';
+    else if (doc.status === 'SUBMITTED_TO_USER4') targetStatus = 'DRAFT_USER5';
     else return res.status(400).json({ success: false, message: 'Status tidak valid untuk dijadikan draft.' });
 
     const updated = await prisma.document.update({
