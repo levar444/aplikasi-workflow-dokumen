@@ -85,6 +85,7 @@ export default function AdminDashboard() {
           <button onClick={() => navigate('/dashboard/user2')} style={styles.navBtn}>Dashboard User 2</button>
           <button onClick={() => navigate('/dashboard/user3')} style={styles.navBtn}>Dashboard User 3</button>
           <button onClick={() => navigate('/dashboard/user4')} style={styles.navBtn}>Dashboard User 4</button>
+          <button onClick={() => navigate('/dashboard/user5')} style={styles.navBtn}>Dashboard User 5</button>
         </div>
       </div>
 
@@ -171,6 +172,7 @@ export default function AdminDashboard() {
                 <option value="USER2">USER2 (Persetujuan Level 1)</option>
                 <option value="USER3">USER3 (Persetujuan Level 2)</option>
                 <option value="USER4">USER4 (Arsip / Selesai)</option>
+                <option value="USER5">USER5 (Role User 5)</option>
               </select>
             </div>
 
