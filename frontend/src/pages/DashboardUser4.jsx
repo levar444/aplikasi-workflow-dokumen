@@ -18,24 +18,26 @@ export default function DashboardUser4() {
 
   const getFileUrl = (filePath) => {
     if (!filePath) return null;
+    
+    // Normalisasi path slash (\ menjadi /)
     let cleanPath = filePath.replace(/\\/g, '/');
+    
+    // Jika path mengandung 'uploads/', ambil nama file atau sub-path setelahnya secara akurat
     if (cleanPath.includes('uploads/')) {
       const parts = cleanPath.split('uploads/');
-      cleanPath = 'uploads/' + parts[parts.length - 1];
-    } else if (cleanPath.includes(':')) {
-      const parts = cleanPath.split('/');
-      cleanPath = 'uploads/' + parts[parts.length - 1];
+      cleanPath = parts[parts.length - 1]; // Ambil nama file terakhir saja
     }
+    
+    // Bersihkan awalan garis miring jika ada
     if (cleanPath.startsWith('/')) {
       cleanPath = cleanPath.slice(1);
     }
 
-    // AMBIL BASE URL DARI INSTANCE API AXIOS ATAU ENVIRONMENT VARIABLE
-    // (Pastikan api.defaults.baseURL mengarah ke backend Railway Anda)
-    const baseURL = api.defaults.baseURL || 'https://aplikasi-workflow-dokumen-production.up.railway.app';
+    // Paksa base URL ke domain utama Railway (BUKAN yang berakhiran /api)
+    const baseDomain = 'https://aplikasi-workflow-dokumen-production.up.railway.app';
     
-    // Hapus garis miring ganda jika ada
-    const fileUrl = `${baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL}/${cleanPath}`;
+    // Gabungkan dengan folder /uploads/ di server
+    const fileUrl = `${baseDomain}/uploads/${cleanPath}`;
 
     const lower = cleanPath.toLowerCase();
     if (lower.endsWith('.doc') || lower.endsWith('.docx') || lower.endsWith('.xls') || lower.endsWith('.xlsx') || lower.endsWith('.ppt') || lower.endsWith('.pptx')) {
