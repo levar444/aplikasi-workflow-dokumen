@@ -11,6 +11,7 @@ model User {
   id                  String               @id @default(uuid())
   email               String               @unique
   password            String
+  name                String?              // <-- Tambahkan baris ini kembali
   role                String               @default("USER5") 
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
@@ -20,7 +21,7 @@ model User {
   revisions           Revision[]           @relation("RevisionRequester")
   passwordResetTokens PasswordResetToken[]
   notifications       Notification[]
-  comments            Comment[]            // <-- Relasi ke komentar
+  comments            Comment[]            
 }
 
 model Document {
