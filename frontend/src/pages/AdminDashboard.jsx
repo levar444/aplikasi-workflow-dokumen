@@ -211,4 +211,4 @@ const styles = {
     fontSize: '0.875rem',
     fontWeight: '500'
   }
-};
+}
