@@ -36,7 +36,7 @@ export default function AdminDashboard() {
       await api.put(
         `/users/${selectedUser.id}`,
         {
-          name: selectedUser.name,
+          name: selectedUser.name || selectedUser.Name, // Menyesuaikan agar aman untuk huruf kecil/besar
           email: selectedUser.email,
           role: newRole,
           isActive: selectedUser.isActive
@@ -107,7 +107,8 @@ export default function AdminDashboard() {
             {users.map((user, index) => (
               <tr key={user.id} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
                 <td style={{ padding: '12px' }}>{user.id}</td>
-                <td style={{ padding: '12px' }}>{user.name}</td>
+                {/* Menampilkan nama baik dari properti huruf kecil maupun besar */}
+                <td style={{ padding: '12px' }}>{user.name || user.Name || <span style={{ color: '#999', fontStyle: 'italic' }}>Tanpa Nama</span>}</td>
                 <td style={{ padding: '12px' }}>{user.email}</td>
                 <td style={{ padding: '12px' }}>
                   <span style={{ 
