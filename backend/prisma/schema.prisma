@@ -11,6 +11,7 @@ model User {
   id                  String               @id @default(uuid())
   email               String               @unique
   password            String
+  name                String?              // <-- Ditambahkan di sini (huruf kecil)
   role                String               @default("USER5") 
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
@@ -20,7 +21,7 @@ model User {
   revisions           Revision[]           @relation("RevisionRequester")
   passwordResetTokens PasswordResetToken[]
   notifications       Notification[]
-  comments            Comment[]            // <-- Relasi ke komentar
+  comments            Comment[]            
 }
 
 model Document {
@@ -38,7 +39,7 @@ model Document {
   fileUpload        FileUpload?
   workflowHistories WorkflowHistory[]
   revisions         Revision[]
-  comments          Comment[]         // <-- Relasi ke komentar dokumen
+  comments          Comment[]         
 }
 
 model Comment {
