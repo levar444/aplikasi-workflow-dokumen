@@ -10,10 +10,13 @@ export default function AdminDashboard() {
   const [newRole, setNewRole] = useState('USER1');
   const navigate = useNavigate();
 
-  // 1. Ambil data semua user dari backend menggunakan instance api yang otomatis mendeteksi Railway/Local
+  // 1. Ambil data semua user dari backend
   const fetchUsers = async () => {
     try {
       const response = await api.get('/users');
+      // Cek struktur data asli di console browser (tekan F12 -> Console)
+      console.log('STRUKTUR DATA USER DARI RAILWAY:', response.data);
+
       const userData = response.data.data || response.data.users || response.data;
       setUsers(Array.isArray(userData) ? userData : []);
       setLoading(false);
@@ -44,7 +47,7 @@ export default function AdminDashboard() {
       );
       alert('Berhasil! Peran/Akses user berhasil diubah.');
       setSelectedUser(null);
-      fetchUsers(); // Refresh data setelah diubah
+      fetchUsers();
     } catch (error) {
       console.error('Gagal mengubah user:', error);
       alert('Terjadi kesalahan saat memperbarui role user.');
@@ -104,46 +107,53 @@ export default function AdminDashboard() {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
-              <tr key={user.id || index} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
-                <td style={{ padding: '12px' }}>{user.id}</td>
-                {/* Mengambil nilai kolom name dari database railway */}
-                <td style={{ padding: '12px' }}>
-                  {user.name || user.Name || user.nama || '-'}
-                </td>
-                <td style={{ padding: '12px' }}>{user.email}</td>
-                <td style={{ padding: '12px' }}>
-                  <span style={{ 
-                    padding: '4px 8px', 
-                    borderRadius: '4px', 
-                    backgroundColor: user.role === 'ADMIN' ? '#dcfce7' : '#e2e8f0', 
-                    fontWeight: 'bold',
-                    color: user.role === 'ADMIN' ? '#166534' : '#2d3748'
-                  }}>
-                    {user.role}
-                  </span>
-                </td>
-                <td style={{ padding: '12px', textAlign: 'center' }}>
-                  <button
-                    onClick={() => {
-                      setSelectedUser(user);
-                      setNewRole(user.role || 'USER1');
-                    }}
-                    style={{
-                      padding: '6px 14px',
-                      backgroundColor: '#ffc107',
-                      border: 'none',
-                      cursor: 'pointer',
-                      borderRadius: '4px',
+            {users.map((user, index) => {
+              // Debugging tiap baris objek user di console
+              console.log(`User [${index}]:`, user);
+
+              return (
+                <tr key={user.id || index} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
+                  <td style={{ padding: '12px' }}>{user.id}</td>
+                  
+                  {/* Menampilkan nilai kolom nama dengan opsi penelusuran maksimal */}
+                  <td style={{ padding: '12px', fontWeight: 'bold', color: '#007bff' }}>
+                    {user.name || user.Name || user.nama || user.username || 'KOSONG'}
+                  </td>
+
+                  <td style={{ padding: '12px' }}>{user.email}</td>
+                  <td style={{ padding: '12px' }}>
+                    <span style={{ 
+                      padding: '4px 8px', 
+                      borderRadius: '4px', 
+                      backgroundColor: user.role === 'ADMIN' ? '#dcfce7' : '#e2e8f0', 
                       fontWeight: 'bold',
-                      color: '#333'
-                    }}
-                  >
-                    Ubah Role
-                  </button>
-                </td>
-              </tr>
-            ))}
+                      color: user.role === 'ADMIN' ? '#166534' : '#2d3748'
+                    }}>
+                      {user.role}
+                    </span>
+                  </td>
+                  <td style={{ padding: '12px', textAlign: 'center' }}>
+                    <button
+                      onClick={() => {
+                        setSelectedUser(user);
+                        setNewRole(user.role || 'USER1');
+                      }}
+                      style={{
+                        padding: '6px 14px',
+                        backgroundColor: '#ffc107',
+                        border: 'none',
+                        cursor: 'pointer',
+                        borderRadius: '4px',
+                        fontWeight: 'bold',
+                        color: '#333'
+                      }}
+                    >
+                      Ubah Role
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
