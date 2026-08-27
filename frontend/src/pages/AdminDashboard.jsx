@@ -36,7 +36,7 @@ export default function AdminDashboard() {
       await api.put(
         `/users/${selectedUser.id}`,
         {
-          name: selectedUser.name || selectedUser.Name || selectedUser.nama,
+          name: selectedUser.Name || selectedUser.nama,
           email: selectedUser.email,
           role: newRole,
           isActive: selectedUser.isActive
@@ -107,10 +107,8 @@ export default function AdminDashboard() {
             {users.map((user, index) => (
               <tr key={user.id} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
                 <td style={{ padding: '12px' }}>{user.id}</td>
-                {/* Menampilkan string nama secara aman atau fallback ke email jika kosong */}
-                <td style={{ padding: '12px' }}>
-                  {user.name || user.Name || user.nama || (user.email ? user.email.split('@')[0] : 'Tanpa Nama')}
-                </td>
+                {/* Mengambil langsung dari kolom Name atau nama database */}
+                <td style={{ padding: '12px' }}>{user.Name || user.nama}</td>
                 <td style={{ padding: '12px' }}>{user.email}</td>
                 <td style={{ padding: '12px' }}>
                   <span style={{ 
