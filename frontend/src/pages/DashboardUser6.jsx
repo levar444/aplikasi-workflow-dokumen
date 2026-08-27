@@ -45,16 +45,22 @@ export default function DashboardUser6() {
       });
       const allDocs = res.data.data || res.data || [];
       
-      // === FILTER YANG DIPERBAIKI ===
-      // Dokumen akan tampil jika belum dikirim ke user lain (User 1 s.d. User 5) 
-      // atau jika statusnya memang berada di User 6 / Draft.
+      // === LOGIKA FILTER AMAN ===
+      // Tampilkan SEMUA dokumen, KECUALI yang statusnya sudah dikirim ke User 1 s.d. User 5.
+      // Dengan cara ini, dokumen yang baru di-input (status apapun selain kiriman ke user lain) pasti akan tampil.
       const filtered = allDocs.filter(doc => {
         const status = (doc.status || '').trim().toUpperCase();
-        const isDraft = status === '' || status === 'DRAFT';
-        const isUser6 = status.includes('USER6');
-        const sentToOtherUser = status.includes('USER1') || status.includes('USER2') || status.includes('USER3') || status.includes('USER4') || status.includes('USER5');
+        
+        // Cek apakah status mengandung indikasi sudah dikirim ke user tujuan lain
+        const isSentToOthers = 
+          status.includes('SUBMITTED_TO_USER1') || status.includes('USER 1') || status.includes('USER1') ||
+          status.includes('SUBMITTED_TO_USER2') || status.includes('USER 2') || status.includes('USER2') ||
+          status.includes('SUBMITTED_TO_USER3') || status.includes('USER 3') || status.includes('USER3') ||
+          status.includes('SUBMITTED_TO_USER4') || status.includes('USER 4') || status.includes('USER4') ||
+          status.includes('SUBMITTED_TO_USER5') || status.includes('USER 5') || status.includes('USER5');
 
-        return isDraft || isUser6 || !sentToOtherUser;
+        // Jika sudah dikirim ke user lain, sembunyikan dari User 6. Jika belum, tampilkan!
+        return !isSentToOthers;
       });
       
       setData(filtered);
