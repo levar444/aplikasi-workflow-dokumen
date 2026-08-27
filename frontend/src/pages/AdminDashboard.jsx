@@ -10,12 +10,12 @@ export default function AdminDashboard() {
   const [newRole, setNewRole] = useState('USER1');
   const navigate = useNavigate();
 
-  // Fungsi helper untuk mengubah berbagai format data teks/buffer dari kolom tipe text database
+  // Fungsi helper untuk mengubah format data blob/buffer Railway menjadi teks string
   const formatTextName = (val) => {
     if (!val) return '-';
     if (typeof val === 'string') return val;
     
-    // Jika tipe text terbaca sebagai objek/buffer biner
+    // Jika data terbaca sebagai Buffer / Array biner dari tipe blob
     try {
       if (val.data && Array.isArray(val.data)) {
         return String.fromCharCode.apply(null, val.data);
@@ -26,7 +26,7 @@ export default function AdminDashboard() {
           : JSON.stringify(val);
       }
     } catch (e) {
-      console.error('Gagal parsing text:', e);
+      console.error('Gagal parsing blob:', e);
     }
     return String(val);
   };
@@ -65,7 +65,7 @@ export default function AdminDashboard() {
       );
       alert('Berhasil! Peran/Akses user berhasil diubah.');
       setSelectedUser(null);
-      fetchUsers();
+      fetchUsers(); // Refresh data setelah diubah
     } catch (error) {
       console.error('Gagal mengubah user:', error);
       alert('Terjadi kesalahan saat memperbarui role user.');
@@ -129,7 +129,7 @@ export default function AdminDashboard() {
               <tr key={user.id || index} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
                 <td style={{ padding: '12px' }}>{user.id}</td>
                 
-                {/* Menampilkan isi teks dari kolom tipe text Name / nama */}
+                {/* Menampilkan teks nama yang sudah di-decode dari format blob */}
                 <td style={{ padding: '12px', fontWeight: 'bold' }}>
                   {formatTextName(user.Name || user.nama || user.name)}
                 </td>
