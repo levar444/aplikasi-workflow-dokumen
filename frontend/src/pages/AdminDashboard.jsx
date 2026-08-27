@@ -167,12 +167,11 @@ export default function AdminDashboard() {
                 onChange={(e) => setNewRole(e.target.value)}
                 style={{ padding: '10px', width: '100%', maxWidth: '350px', borderRadius: '4px', border: '1px solid #ccc' }}
               >
-                <option value="ADMIN">ADMIN (Pengelola Sistem)</option>
-                <option value="USER1">USER1 (Pemohon / Pengaju Dokumen)</option>
-                <option value="USER2">USER2 (Persetujuan Level 1)</option>
-                <option value="USER3">USER3 (Persetujuan Level 2)</option>
-                <option value="USER4">USER4 (Arsip / Selesai)</option>
-                <option value="USER5">USER5 (Role User 5)</option>
+                <option value="ADMIN">ADMIN</option>
+                <option value="USER1">APPROVAL</option>
+                <option value="USER2">VALIDATOR</option>
+                <option value="USER3">OPERATOR</option>
+              
               </select>
             </div>
 

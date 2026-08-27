@@ -17,7 +17,7 @@ async function main() {
 
   await prisma.user.createMany({
     data: [
-      { name: 'Final Approver', email: 'user1@example.com', password: hashedPassword, role: 'APPROVAL', isActive: true },
+      { name: 'Final Approver', email: 'user1@example.com', password: hashedPassword, role: 'USER1', isActive: true },
       { name: 'Validator User', email: 'user2@example.com', password: hashedPassword, role: 'USER2', isActive: true },
       { name: 'Template User', email: 'user3@example.com', password: hashedPassword, role: 'USER3', isActive: true },
       { name: 'Input User', email: 'user4@example.com', password: hashedPassword, role: 'USER4', isActive: true },
