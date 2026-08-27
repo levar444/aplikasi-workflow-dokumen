@@ -157,11 +157,13 @@ const createDocument = async (req, res, next) => {
     }
 
     // Menentukan status draft awal secara dinamis berdasarkan role user yang sedang login
+    // Menentukan status draft awal secara dinamis berdasarkan role user yang sedang login
     let initialStatus = 'DRAFT_USER4';
     const userRole = req.user?.role;
-    if (userRole === 'USER5') initialStatus = 'DRAFT_USER5';
+    if (userRole === 'USER6') initialStatus = 'DRAFT_USER6'; // <-- TAMBAHKAN INI
+    else if (userRole === 'USER5') initialStatus = 'DRAFT_USER5';
     else if (userRole === 'USER3') initialStatus = 'DRAFT_USER3';
-    else if (userRole === 'USER2') initialStatus = 'DRAFT_USER2';
+    else if (userRole === 'USER2') initialStatus = 'DRAFT_USER2'; 
 
     const createData = {
       documentNumber: docNumber,
