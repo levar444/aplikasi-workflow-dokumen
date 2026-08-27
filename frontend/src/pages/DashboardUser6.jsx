@@ -45,13 +45,19 @@ export default function DashboardUser6() {
       });
       const allDocs = res.data.data || res.data || [];
       
-      // === FILTER: Hanya tampilkan dokumen Draft atau yang ada di User 6 ===
+      // === FILTER YANG DIPERBAIKI ===
+      // Dokumen akan tampil jika belum dikirim ke user lain (User 1 s.d. User 5) 
+      // atau jika statusnya memang berada di User 6 / Draft.
       const filtered = allDocs.filter(doc => {
         const status = (doc.status || '').trim().toUpperCase();
-        return status === '' || status === 'DRAFT' || status.includes('USER6');
+        const isDraft = status === '' || status === 'DRAFT';
+        const isUser6 = status.includes('USER6');
+        const sentToOtherUser = status.includes('USER1') || status.includes('USER2') || status.includes('USER3') || status.includes('USER4') || status.includes('USER5');
+
+        return isDraft || isUser6 || !sentToOtherUser;
       });
       
-      setData(filtered); // Masukkan data yang sudah difilter ke state
+      setData(filtered);
 
       const loadedComments = {};
       allDocs.forEach(doc => {
@@ -126,7 +132,7 @@ export default function DashboardUser6() {
       setTimeout(() => {
         alert('Dokumen berhasil diproses!');
         setAnimatingId(null);
-        fetchDocuments(); // Memuat ulang data dan memfilter dokumen yang sudah dikirim
+        fetchDocuments(); // Memuat ulang data sehingga dokumen yang dikirim otomatis hilang dari tabel ini
       }, 400);
     } catch (err) {
       setAnimatingId(null);
