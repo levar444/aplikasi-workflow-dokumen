@@ -36,7 +36,7 @@ export default function AdminDashboard() {
       await api.put(
         `/users/${selectedUser.id}`,
         {
-          name: selectedUser.name,
+          name: selectedUser.name || selectedUser.Name || selectedUser.nama,
           email: selectedUser.email,
           role: newRole,
           isActive: selectedUser.isActive
@@ -107,8 +107,8 @@ export default function AdminDashboard() {
             {users.map((user, index) => (
               <tr key={user.id} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
                 <td style={{ padding: '12px' }}>{user.id}</td>
-                {/* Mengambil tepat dari properti name database */}
-                <td style={{ padding: '12px' }}>{user.Name}</td>
+                {/* Mengambil variasi nama dari database secara aman */}
+                <td style={{ padding: '12px' }}>{user.name || user.Name || user.nama}</td>
                 <td style={{ padding: '12px' }}>{user.email}</td>
                 <td style={{ padding: '12px' }}>
                   <span style={{ 
