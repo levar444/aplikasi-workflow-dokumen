@@ -107,7 +107,7 @@ export default function AdminDashboard() {
             {users.map((user, index) => (
               <tr key={user.id} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
                 <td style={{ padding: '12px' }}>{user.id}</td>
-                {/* Mengambil variasi nama dari database secara aman */}
+                {/* Menampilkan isi kolom nama dari database dengan aman */}
                 <td style={{ padding: '12px' }}>{user.name || user.Name || user.nama}</td>
                 <td style={{ padding: '12px' }}>{user.email}</td>
                 <td style={{ padding: '12px' }}>
