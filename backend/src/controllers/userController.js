@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 const getUsers = async (req, res, next) => {
   try {
     const users = await prisma.user.findMany({
-      select: { id: true, email: true, role: true, createdAt: true },
+      select: { id: true, name: true, email: true, role: true, createdAt: true },
     });
     res.json({ success: true, data: users });
   } catch (error) {
@@ -15,10 +15,10 @@ const getUsers = async (req, res, next) => {
 
 const createUser = async (req, res, next) => {
   try {
-    const { email, password, role } = req.body;
+    const { name, email, password, role } = req.body;
     const hashedPassword = await bcrypt.hash(password || 'password123', 10);
     const user = await prisma.user.create({
-      data: { email, password: hashedPassword, role: role || 'USER4' },
+      data: { name, email, password: hashedPassword, role: role || 'USER4' },
     });
     res.status(201).json({ success: true, data: user });
   } catch (error) {
@@ -29,10 +29,10 @@ const createUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { email, role } = req.body;
+    const { name, email, role } = req.body;
     const user = await prisma.user.update({
       where: { id },
-      data: { email, role },
+      data: { name, email, role },
     });
     res.json({ success: true, data: user });
   } catch (error) {
