@@ -5,9 +5,15 @@ const prisma = new PrismaClient();
 const getUsers = async (req, res, next) => {
   try {
     const users = await prisma.user.findMany({
-      select: { id: true, name: true, email: true, role: true, createdAt: true },
+      // Ubah 'name' menjadi 'Name' sesuai database Railway Anda
+      select: { id: true, Name: true, email: true, role: true, createdAt: true },
     });
-    res.json({ success: true, data: users });
+    // Mapping agar frontend tetap menerima properti 'name' (huruf kecil)
+    const formattedUsers = users.map(user => ({
+      ...user,
+      name: user.Name // Menyocokkan dengan frontend
+    }));
+    res.json({ success: true, data: formattedUsers });
   } catch (error) {
     next(error);
   }
@@ -18,7 +24,8 @@ const createUser = async (req, res, next) => {
     const { name, email, password, role } = req.body;
     const hashedPassword = await bcrypt.hash(password || 'password123', 10);
     const user = await prisma.user.create({
-      data: { name, email, password: hashedPassword, role: role || 'USER4' },
+      // Gunakan 'Name' untuk mencocokkan kolom di database Railway
+      data: { Name: name, email, password: hashedPassword, role: role || 'USER4' },
     });
     res.status(201).json({ success: true, data: user });
   } catch (error) {
@@ -32,7 +39,8 @@ const updateUser = async (req, res, next) => {
     const { name, email, role } = req.body;
     const user = await prisma.user.update({
       where: { id },
-      data: { name, email, role },
+      // Gunakan 'Name' untuk mencocokkan kolom di database Railway
+      data: { Name: name, email, role },
     });
     res.json({ success: true, data: user });
   } catch (error) {
@@ -42,7 +50,6 @@ const updateUser = async (req, res, next) => {
 
 const updateStatus = async (req, res, next) => {
   try {
-    // Karena kolom status/isActive tidak ada di schema prisma, lewati atau sesuaikan
     res.status(400).json({ success: false, message: 'Fitur status tidak didukung pada skema database saat ini.' });
   } catch (error) {
     next(error);
