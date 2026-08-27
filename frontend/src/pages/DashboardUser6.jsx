@@ -45,15 +45,13 @@ export default function DashboardUser6() {
       });
       const allDocs = res.data.data || res.data || [];
       
-      const filtered = allDocs.filter(doc => {
-        const status = (doc.status || '').trim().toUpperCase();
-        return status === '' || status === 'DRAFT' || status.includes('USER6');
-      });
+      console.log("Semua dokumen dari server:", allDocs);
       
-      setData(filtered);
+      // Menampilkan seluruh dokumen agar dokumen yang baru di-input langsung muncul di daftar
+      setData(allDocs);
 
       const loadedComments = {};
-      filtered.forEach(doc => {
+      allDocs.forEach(doc => {
         if (doc.comment) {
           loadedComments[doc.id] = doc.comment;
         }
@@ -90,7 +88,6 @@ export default function DashboardUser6() {
         formData.append('file', file);
       }
 
-      // Jangan set 'Content-Type' secara manual agar Axios otomatis mengatur boundary FormData
       await api.post('/documents', formData, {
         headers: { 
           'Authorization': `Bearer ${token}`
@@ -102,7 +99,6 @@ export default function DashboardUser6() {
       setTitle('');
       setFile(null);
       
-      // Reset elemen input file pada DOM
       const fileInput = document.querySelector('input[type="file"]');
       if (fileInput) fileInput.value = '';
 
