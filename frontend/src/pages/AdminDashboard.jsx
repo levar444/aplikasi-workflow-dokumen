@@ -107,8 +107,10 @@ export default function AdminDashboard() {
             {users.map((user, index) => (
               <tr key={user.id} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
                 <td style={{ padding: '12px' }}>{user.id}</td>
-                {/* Menampilkan nama baik dari properti huruf kecil maupun besar */}
-                <td style={{ padding: '12px' }}>{user.name || user.Name || <span style={{ color: '#999', fontStyle: 'italic' }}>Tanpa Nama</span>}</td>
+                {/* Otomatis menampilkan nama, atau mengambil dari awalan email jika kosong */}
+                <td style={{ padding: '12px' }}>
+                  {user.name || user.Name || (user.email ? user.email.split('@')[0] : <span style={{ color: '#999', fontStyle: 'italic' }}>Tanpa Nama</span>)}
+                </td>
                 <td style={{ padding: '12px' }}>{user.email}</td>
                 <td style={{ padding: '12px' }}>
                   <span style={{ 
