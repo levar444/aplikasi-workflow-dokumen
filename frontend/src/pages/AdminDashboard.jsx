@@ -168,9 +168,9 @@ export default function AdminDashboard() {
                 style={{ padding: '10px', width: '100%', maxWidth: '350px', borderRadius: '4px', border: '1px solid #ccc' }}
               >
                 <option value="ADMIN">ADMIN</option>
-                <option value="USER1">APPROVAL</option>
-                <option value="USER2">VALIDATOR</option>
-                <option value="USER3">OPERATOR</option>
+                <option value="APPROVAL">APPROVAL</option>
+                <option value="VALIDATOR">VALIDATOR</option>
+                <option value="OPERATOR">OPERATOR</option>
               </select>
             </div>
 
