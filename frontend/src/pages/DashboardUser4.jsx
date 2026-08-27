@@ -200,7 +200,7 @@ export default function DashboardUser4() {
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <li>
               <button style={{ width: '100%', textAlign: 'left', padding: '10px 12px', backgroundColor: '#eff6ff', color: '#2563eb', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span>📊</span> Dashboard User 4
+                <span>📊</span> VALIDATOR
               </button>
             </li>
           </ul>
