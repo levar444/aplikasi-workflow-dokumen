@@ -168,9 +168,11 @@ export default function AdminDashboard() {
                 style={{ padding: '10px', width: '100%', maxWidth: '350px', borderRadius: '4px', border: '1px solid #ccc' }}
               >
                 <option value="ADMIN">ADMIN</option>
-                <option value="APPROVAL">APPROVAL</option>
-                <option value="VALIDATOR">VALIDATOR</option>
-                <option value="OPERATOR">OPERATOR</option>
+                <option value="APPROVAL">APPROVAL KEPALA BALAI</option>
+                <option value="VALIDATOR">VALIDATOR TATA USAHA</option>
+                <option value="VALIDATOR">VALIDATOR INFORMASI & DISTRIBUSI</option>
+                <option value="VALIDATOR">VALIDATOR MANAJEMEN PEMELIHARAAN TERNAK</option>
+                <option value="OPERATOR">OPERATOR PRODUKSI & TRANSFER EMBRIO</option>
               </select>
             </div>
 
