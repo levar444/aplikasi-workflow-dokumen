@@ -10,33 +10,12 @@ export default function AdminDashboard() {
   const [newRole, setNewRole] = useState('USER1');
   const navigate = useNavigate();
 
-  // Fungsi helper untuk mengubah format data blob/buffer Railway menjadi teks string
-  const formatTextName = (val) => {
-    if (!val) return '-';
-    if (typeof val === 'string') return val;
-    
-    // Jika data terbaca sebagai Buffer / Array biner dari tipe blob
-    try {
-      if (val.data && Array.isArray(val.data)) {
-        return String.fromCharCode.apply(null, val.data);
-      }
-      if (typeof val === 'object') {
-        return val.type === 'Buffer' && Array.isArray(val.data)
-          ? String.fromCharCode.apply(null, val.data)
-          : JSON.stringify(val);
-      }
-    } catch (e) {
-      console.error('Gagal parsing blob:', e);
-    }
-    return String(val);
-  };
-
-  // 1. Ambil data semua user dari backend
+  // 1. Ambil data semua user dari backend menggunakan instance api yang otomatis mendeteksi Railway/Local
   const fetchUsers = async () => {
     try {
       const response = await api.get('/users');
-      const userData = response.data.data || response.data.users || response.data;
-      setUsers(Array.isArray(userData) ? userData : []);
+      const userData = response.data.data || response.data;
+      setUsers(userData);
       setLoading(false);
     } catch (error) {
       console.error('Gagal mengambil data user:', error);
@@ -57,7 +36,7 @@ export default function AdminDashboard() {
       await api.put(
         `/users/${selectedUser.id}`,
         {
-          name: formatTextName(selectedUser.Name || selectedUser.nama || selectedUser.name),
+          name: selectedUser.Name || selectedUser.nama,
           email: selectedUser.email,
           role: newRole,
           isActive: selectedUser.isActive
@@ -126,14 +105,10 @@ export default function AdminDashboard() {
           </thead>
           <tbody>
             {users.map((user, index) => (
-              <tr key={user.id || index} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
+              <tr key={user.id} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
                 <td style={{ padding: '12px' }}>{user.id}</td>
-                
-                {/* Menampilkan teks nama yang sudah di-decode dari format blob */}
-                <td style={{ padding: '12px', fontWeight: 'bold' }}>
-                  {formatTextName(user.Name || user.nama || user.name)}
-                </td>
-
+                {/* Mengambil langsung dari kolom Name atau nama database */}
+                <td style={{ padding: '12px' }}>{user.Name || user.nama}</td>
                 <td style={{ padding: '12px' }}>{user.email}</td>
                 <td style={{ padding: '12px' }}>
                   <span style={{ 
