@@ -158,13 +158,14 @@ const createDocument = async (req, res, next) => {
 
     // Menentukan status draft awal secara dinamis berdasarkan role user yang sedang login
     // Menentukan status draft awal secara dinamis berdasarkan role user yang sedang login
-    let initialStatus = 'DRAFT_USER4';
-    const userRole = req.user?.role;
-    if (userRole === 'USER6') initialStatus = 'DRAFT_USER6'; // <-- TAMBAHKAN INI
-    else if (userRole === 'USER5') initialStatus = 'DRAFT_USER5';
-    else if (userRole === 'USER3') initialStatus = 'DRAFT_USER3';
-    else if (userRole === 'USER2') initialStatus = 'DRAFT_USER2'; 
-
+    let nextStatus = bodyTargetStatus;
+    if (!nextStatus) {
+    if (doc.status === 'DRAFT_USER6' || doc.status === 'REVISION_USER6') nextStatus = 'SUBMITTED_TO_USER5'; // Sesuaikan alur tujuan Anda
+    else if (doc.status === 'DRAFT_USER5' || doc.status === 'REVISION_USER5') nextStatus = 'SUBMITTED_TO_USER4';
+    else if (doc.status === 'DRAFT_USER4' || doc.status === 'REVISION_USER4') nextStatus = 'SUBMITTED_TO_USER3';
+    else if (doc.status === 'DRAFT_USER3' || doc.status === 'REVISION_USER3') nextStatus = 'SUBMITTED_TO_USER2';
+    else if (doc.status === 'DRAFT_USER2' || doc.status === 'REVISION_USER2') nextStatus = 'SUBMITTED_TO_USER1';
+}
     const createData = {
       documentNumber: docNumber,
       status: initialStatus,
@@ -261,7 +262,18 @@ const submitDocument = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Dokumen tidak ditemukan.' });
     }
 
-    // Hanya memperbarui status dan komentar saja
+    let nextStatus = bodyTargetStatus;
+    if (!nextStatus) {
+      if (doc.status === 'DRAFT_USER5' || doc.status === 'REVISION_USER5') nextStatus = 'SUBMITTED_TO_USER4';
+      else if (doc.status === 'DRAFT_USER4' || doc.status === 'REVISION_USER4') nextStatus = 'SUBMITTED_TO_USER3';
+      else if (doc.status === 'DRAFT_USER3' || doc.status === 'REVISION_USER3') nextStatus = 'SUBMITTED_TO_USER2';
+      else if (doc.status === 'DRAFT_USER2' || doc.status === 'REVISION_USER2') nextStatus = 'SUBMITTED_TO_USER1';
+    }
+
+    if (!nextStatus) {
+      return res.status(400).json({ success: false, message: 'Status tujuan pengiriman tidak valid.' });
+    }
+
     const updated = await prisma.document.update({
       where: { id },
       data: { 
@@ -269,7 +281,7 @@ const submitDocument = async (req, res, next) => {
         comment: comment && comment.trim() !== '' ? comment : doc.comment 
       }
     });
-    
+
     let userId = req.user?.id;
     if (!userId) {
       const defaultUser = await prisma.user.findFirst();
