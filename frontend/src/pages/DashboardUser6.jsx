@@ -45,7 +45,13 @@ export default function DashboardUser6() {
       });
       const allDocs = res.data.data || res.data || [];
       
-      setData(allDocs);
+      // === FILTER: Hanya tampilkan dokumen Draft atau yang ada di User 6 ===
+      const filtered = allDocs.filter(doc => {
+        const status = (doc.status || '').trim().toUpperCase();
+        return status === '' || status === 'DRAFT' || status.includes('USER6');
+      });
+      
+      setData(filtered); // Masukkan data yang sudah difilter ke state
 
       const loadedComments = {};
       allDocs.forEach(doc => {
@@ -97,7 +103,7 @@ export default function DashboardUser6() {
       setFile(null);
 
       const fileInput = document.querySelector('input[type="file"]');
-      if (fileInput) fileInput.value = ''; // <-- Baris ini membersihkan file yang dipilih di browser
+      if (fileInput) fileInput.value = '';
       
       fetchDocuments();
     } catch (err) {
@@ -120,7 +126,7 @@ export default function DashboardUser6() {
       setTimeout(() => {
         alert('Dokumen berhasil diproses!');
         setAnimatingId(null);
-        fetchDocuments();
+        fetchDocuments(); // Memuat ulang data dan memfilter dokumen yang sudah dikirim
       }, 400);
     } catch (err) {
       setAnimatingId(null);
