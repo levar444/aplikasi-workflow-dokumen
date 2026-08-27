@@ -59,6 +59,8 @@ const Login = () => {
           navigate('/dashboard/user4', { replace: true });
         } else if (userRole === 'USER5') {
           navigate('/dashboard/user5', { replace: true }); // <-- Ditambahkan untuk User 5
+        } else if (userRole === 'USER6') {
+          navigate('/dashboard/user6', { replace: true }); // <-- Ditambahkan untuk User 5
         } else {
           navigate('/', { replace: true });
         }
