@@ -45,22 +45,13 @@ export default function DashboardUser6() {
       });
       const allDocs = res.data.data || res.data || [];
       
-      // === LOGIKA FILTER AMAN ===
-      // Tampilkan SEMUA dokumen, KECUALI yang statusnya sudah dikirim ke User 1 s.d. User 5.
-      // Dengan cara ini, dokumen yang baru di-input (status apapun selain kiriman ke user lain) pasti akan tampil.
+      // === FILTER SPESIFIK USER 6 / DRAFT ===
+      // Dokumen hanya akan muncul jika:
+      // 1. Statusnya kosong atau DRAFT
+      // 2. Statusnya secara eksplisit mengandung kata 'USER6'
       const filtered = allDocs.filter(doc => {
         const status = (doc.status || '').trim().toUpperCase();
-        
-        // Cek apakah status mengandung indikasi sudah dikirim ke user tujuan lain
-        const isSentToOthers = 
-          status.includes('SUBMITTED_TO_USER1') || status.includes('USER 1') || status.includes('USER1') ||
-          status.includes('SUBMITTED_TO_USER2') || status.includes('USER 2') || status.includes('USER2') ||
-          status.includes('SUBMITTED_TO_USER3') || status.includes('USER 3') || status.includes('USER3') ||
-          status.includes('SUBMITTED_TO_USER4') || status.includes('USER 4') || status.includes('USER4') ||
-          status.includes('SUBMITTED_TO_USER5') || status.includes('USER 5') || status.includes('USER5');
-
-        // Jika sudah dikirim ke user lain, sembunyikan dari User 6. Jika belum, tampilkan!
-        return !isSentToOthers;
+        return status === '' || status === 'DRAFT' || status.includes('USER6');
       });
       
       setData(filtered);
@@ -138,7 +129,7 @@ export default function DashboardUser6() {
       setTimeout(() => {
         alert('Dokumen berhasil diproses!');
         setAnimatingId(null);
-        fetchDocuments(); // Memuat ulang data sehingga dokumen yang dikirim otomatis hilang dari tabel ini
+        fetchDocuments(); // Memuat ulang data sehingga dokumen langsung hilang dari tabel User 6 setelah dikirim
       }, 400);
     } catch (err) {
       setAnimatingId(null);
