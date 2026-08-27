@@ -81,11 +81,11 @@ export default function AdminDashboard() {
       <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', marginBottom: '20px' }}>
         <h3 style={{ marginTop: 0, fontSize: '1rem', color: '#333', marginBottom: '10px' }}>Pintasan Halaman Frontend:</h3>
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-          <button onClick={() => navigate('/dashboard/user1')} style={styles.navBtn}>Dashboard User 1</button>
-          <button onClick={() => navigate('/dashboard/user2')} style={styles.navBtn}>Dashboard User 2</button>
-          <button onClick={() => navigate('/dashboard/user3')} style={styles.navBtn}>Dashboard User 3</button>
-          <button onClick={() => navigate('/dashboard/user4')} style={styles.navBtn}>Dashboard User 4</button>
-          <button onClick={() => navigate('/dashboard/user5')} style={styles.navBtn}>Dashboard User 5</button>
+          <button onClick={() => navigate('/dashboard/user1')} style={styles.navBtn}>KEPALA BALAI</button>
+          <button onClick={() => navigate('/dashboard/user2')} style={styles.navBtn}>TATA USAHA</button>
+          <button onClick={() => navigate('/dashboard/user3')} style={styles.navBtn}>INFOMASI & DISTRIBUSI</button>
+          <button onClick={() => navigate('/dashboard/user4')} style={styles.navBtn}>MANAJEMEN PEMELIHARAAN TERNAK</button>
+          <button onClick={() => navigate('/dashboard/user5')} style={styles.navBtn}>PRODUKSI & TRANSFER EMBRIO</button>
         </div>
       </div>
 
