@@ -10,13 +10,27 @@ export default function AdminDashboard() {
   const [newRole, setNewRole] = useState('USER1');
   const navigate = useNavigate();
 
+  // Fungsi helper untuk mengubah format blob / buffer / object biner menjadi teks string
+  const formatBlobName = (blobData) => {
+    if (!blobData) return '-';
+    // Jika bentuknya sudah string biasa
+    if (typeof blobData === 'string') return blobData;
+    // Jika bentuknya buffer atau array biner dari tipe data blob
+    try {
+      if (blobData.data && Array.isArray(blobData.data)) {
+        return String.fromCharCode.apply(null, blobData.data);
+      }
+      // Jika berupa objek JSON atau serialized buffer lainnya
+      return JSON.stringify(blobData);
+    } catch (e) {
+      return 'VALIDATOR'; // Fallback teks default jika blob gagal di-decode
+    }
+  };
+
   // 1. Ambil data semua user dari backend
   const fetchUsers = async () => {
     try {
       const response = await api.get('/users');
-      // Cek struktur data asli di console browser (tekan F12 -> Console)
-      console.log('STRUKTUR DATA USER DARI RAILWAY:', response.data);
-
       const userData = response.data.data || response.data.users || response.data;
       setUsers(Array.isArray(userData) ? userData : []);
       setLoading(false);
@@ -39,7 +53,7 @@ export default function AdminDashboard() {
       await api.put(
         `/users/${selectedUser.id}`,
         {
-          name: selectedUser.name || selectedUser.Name || selectedUser.nama,
+          name: formatBlobName(selectedUser.Name || selectedUser.nama),
           email: selectedUser.email,
           role: newRole,
           isActive: selectedUser.isActive
@@ -107,53 +121,48 @@ export default function AdminDashboard() {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => {
-              // Debugging tiap baris objek user di console
-              console.log(`User [${index}]:`, user);
+            {users.map((user, index) => (
+              <tr key={user.id || index} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
+                <td style={{ padding: '12px' }}>{user.id}</td>
+                
+                {/* Menampilkan teks dari kolom blob Name / nama */}
+                <td style={{ padding: '12px', fontWeight: 'bold' }}>
+                  {formatBlobName(user.Name || user.nama || user.name)}
+                </td>
 
-              return (
-                <tr key={user.id || index} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
-                  <td style={{ padding: '12px' }}>{user.id}</td>
-                  
-                  {/* Menampilkan nilai kolom nama dengan opsi penelusuran maksimal */}
-                  <td style={{ padding: '12px', fontWeight: 'bold', color: '#007bff' }}>
-                    {user.name || user.Name || user.nama || user.username || 'KOSONG'}
-                  </td>
-
-                  <td style={{ padding: '12px' }}>{user.email}</td>
-                  <td style={{ padding: '12px' }}>
-                    <span style={{ 
-                      padding: '4px 8px', 
-                      borderRadius: '4px', 
-                      backgroundColor: user.role === 'ADMIN' ? '#dcfce7' : '#e2e8f0', 
+                <td style={{ padding: '12px' }}>{user.email}</td>
+                <td style={{ padding: '12px' }}>
+                  <span style={{ 
+                    padding: '4px 8px', 
+                    borderRadius: '4px', 
+                    backgroundColor: user.role === 'ADMIN' ? '#dcfce7' : '#e2e8f0', 
+                    fontWeight: 'bold',
+                    color: user.role === 'ADMIN' ? '#166534' : '#2d3748'
+                  }}>
+                    {user.role}
+                  </span>
+                </td>
+                <td style={{ padding: '12px', textAlign: 'center' }}>
+                  <button
+                    onClick={() => {
+                      setSelectedUser(user);
+                      setNewRole(user.role || 'USER1');
+                    }}
+                    style={{
+                      padding: '6px 14px',
+                      backgroundColor: '#ffc107',
+                      border: 'none',
+                      cursor: 'pointer',
+                      borderRadius: '4px',
                       fontWeight: 'bold',
-                      color: user.role === 'ADMIN' ? '#166534' : '#2d3748'
-                    }}>
-                      {user.role}
-                    </span>
-                  </td>
-                  <td style={{ padding: '12px', textAlign: 'center' }}>
-                    <button
-                      onClick={() => {
-                        setSelectedUser(user);
-                        setNewRole(user.role || 'USER1');
-                      }}
-                      style={{
-                        padding: '6px 14px',
-                        backgroundColor: '#ffc107',
-                        border: 'none',
-                        cursor: 'pointer',
-                        borderRadius: '4px',
-                        fontWeight: 'bold',
-                        color: '#333'
-                      }}
-                    >
-                      Ubah Role
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+                      color: '#333'
+                    }}
+                  >
+                    Ubah Role
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
