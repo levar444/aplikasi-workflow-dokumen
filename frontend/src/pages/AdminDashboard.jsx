@@ -36,7 +36,7 @@ export default function AdminDashboard() {
       await api.put(
         `/users/${selectedUser.id}`,
         {
-          name: selectedUser.name || selectedUser.Name, // Menyesuaikan agar aman untuk huruf kecil/besar
+          name: selectedUser.name,
           email: selectedUser.email,
           role: newRole,
           isActive: selectedUser.isActive
@@ -107,10 +107,8 @@ export default function AdminDashboard() {
             {users.map((user, index) => (
               <tr key={user.id} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
                 <td style={{ padding: '12px' }}>{user.id}</td>
-                {/* Otomatis menampilkan nama, atau mengambil dari awalan email jika kosong */}
-                <td style={{ padding: '12px' }}>
-                  {user.name || user.Name || (user.email ? user.email.split('@')[0] : <span style={{ color: '#999', fontStyle: 'italic' }}>Tanpa Nama</span>)}
-                </td>
+                {/* Mengambil tepat dari properti name database */}
+                <td style={{ padding: '12px' }}>{user.name}</td>
                 <td style={{ padding: '12px' }}>{user.email}</td>
                 <td style={{ padding: '12px' }}>
                   <span style={{ 
