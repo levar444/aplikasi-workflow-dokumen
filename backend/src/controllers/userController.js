@@ -5,15 +5,9 @@ const prisma = new PrismaClient();
 const getUsers = async (req, res, next) => {
   try {
     const users = await prisma.user.findMany({
-      // Ubah 'name' menjadi 'Name' sesuai database Railway
-      select: { id: true, Name: true, email: true, role: true, createdAt: true },
+      select: { id: true, name: true, email: true, role: true, createdAt: true },
     });
-    // Mapping agar properti kembali menjadi 'name' untuk frontend
-    const formattedUsers = users.map(user => ({
-      ...user,
-      name: user.Name
-    }));
-    res.json({ success: true, data: formattedUsers });
+    res.json({ success: true, data: users });
   } catch (error) {
     next(error);
   }
@@ -24,7 +18,7 @@ const createUser = async (req, res, next) => {
     const { name, email, password, role } = req.body;
     const hashedPassword = await bcrypt.hash(password || 'password123', 10);
     const user = await prisma.user.create({
-      data: { Name: name, email, password: hashedPassword, role: role || 'USER4' },
+      data: { name, email, password: hashedPassword, role: role || 'USER4' },
     });
     res.status(201).json({ success: true, data: user });
   } catch (error) {
@@ -38,7 +32,7 @@ const updateUser = async (req, res, next) => {
     const { name, email, role } = req.body;
     const user = await prisma.user.update({
       where: { id },
-      data: { Name: name, email, role },
+      data: { name, email, role },
     });
     res.json({ success: true, data: user });
   } catch (error) {
