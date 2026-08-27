@@ -145,6 +145,8 @@ const createDocument = async (req, res, next) => {
     const docTitle = req.body && req.body.title ? String(req.body.title) : docNumber;
 
     let userId = req.user?.id;
+    let userRole = req.user?.role;
+
     if (!userId) {
       const defaultUser = await prisma.user.findFirst();
       if (!defaultUser) {
@@ -154,18 +156,16 @@ const createDocument = async (req, res, next) => {
         });
       }
       userId = defaultUser.id;
+      userRole = defaultUser.role;
     }
 
-    // Menentukan status draft awal secara dinamis berdasarkan role user yang sedang login
-    // Menentukan status draft awal secara dinamis berdasarkan role user yang sedang login
-    let nextStatus = bodyTargetStatus;
-    if (!nextStatus) {
-    if (doc.status === 'DRAFT_USER6' || doc.status === 'REVISION_USER6') nextStatus = 'SUBMITTED_TO_USER5'; // Sesuaikan alur tujuan Anda
-    else if (doc.status === 'DRAFT_USER5' || doc.status === 'REVISION_USER5') nextStatus = 'SUBMITTED_TO_USER4';
-    else if (doc.status === 'DRAFT_USER4' || doc.status === 'REVISION_USER4') nextStatus = 'SUBMITTED_TO_USER3';
-    else if (doc.status === 'DRAFT_USER3' || doc.status === 'REVISION_USER3') nextStatus = 'SUBMITTED_TO_USER2';
-    else if (doc.status === 'DRAFT_USER2' || doc.status === 'REVISION_USER2') nextStatus = 'SUBMITTED_TO_USER1';
-}
+    // Menentukan status draft awal secara dinamis berdasarkan role user yang sedang login (Termasuk USER6)
+    let initialStatus = 'DRAFT_USER4';
+    if (userRole === 'USER6') initialStatus = 'DRAFT_USER6';
+    else if (userRole === 'USER5') initialStatus = 'DRAFT_USER5';
+    else if (userRole === 'USER3') initialStatus = 'DRAFT_USER3';
+    else if (userRole === 'USER2') initialStatus = 'DRAFT_USER2';
+
     const createData = {
       documentNumber: docNumber,
       status: initialStatus,
@@ -201,7 +201,8 @@ const createDocument = async (req, res, next) => {
       data: createData,
       include: {
         documentData: true,
-        fileUpload: true
+        fileUpload: true,
+        uploader: { select: { email: true, role: true } }
       }
     });
 
@@ -264,7 +265,8 @@ const submitDocument = async (req, res, next) => {
 
     let nextStatus = bodyTargetStatus;
     if (!nextStatus) {
-      if (doc.status === 'DRAFT_USER5' || doc.status === 'REVISION_USER5') nextStatus = 'SUBMITTED_TO_USER4';
+      if (doc.status === 'DRAFT_USER6' || doc.status === 'REVISION_USER6') nextStatus = 'SUBMITTED_TO_USER5';
+      else if (doc.status === 'DRAFT_USER5' || doc.status === 'REVISION_USER5') nextStatus = 'SUBMITTED_TO_USER4';
       else if (doc.status === 'DRAFT_USER4' || doc.status === 'REVISION_USER4') nextStatus = 'SUBMITTED_TO_USER3';
       else if (doc.status === 'DRAFT_USER3' || doc.status === 'REVISION_USER3') nextStatus = 'SUBMITTED_TO_USER2';
       else if (doc.status === 'DRAFT_USER2' || doc.status === 'REVISION_USER2') nextStatus = 'SUBMITTED_TO_USER1';
