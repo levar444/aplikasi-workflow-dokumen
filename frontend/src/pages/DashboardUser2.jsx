@@ -156,6 +156,7 @@ export default function DashboardUser2() {
     if (s.includes('USER3')) return 'Sudah dikirim ke User 3';
     if (s.includes('USER4')) return 'Sudah dikirim ke User 4';
     if (s.includes('USER5')) return 'Sudah dikirim ke User 5';
+    if (s.includes('USER6')) return 'Sudah dikirim ke User 6';
     return status;
   };
 
