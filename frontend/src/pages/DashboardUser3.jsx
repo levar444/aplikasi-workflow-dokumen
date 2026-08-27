@@ -185,7 +185,7 @@ export default function DashboardUser3() {
           
           <div style={{ marginBottom: '20px' }}>
             <p style={{ fontSize: '11px', color: '#9ca3af', textTransform: 'uppercase', fontWeight: 'bold', margin: '0 0 4px 0' }}>Pengguna</p>
-            <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#2563eb', display: 'block' }}>ID</span>
+            <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#2563eb', display: 'block' }}>INFORMASI & DISTRIBUSI</span>
             <span style={{ fontSize: '11px', color: '#4b5563', fontWeight: '600' }}></span>
           </div>
 
