@@ -107,7 +107,8 @@ export default function AdminDashboard() {
             {users.map((user, index) => (
               <tr key={user.id} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
                 <td style={{ padding: '12px' }}>{user.id}</td>
-                <td style={{ padding: '12px' }}>{user.name}</td>
+                {/* Penambahan fallback text jika nama kosong */}
+                <td style={{ padding: '12px' }}>{user.name || <span style={{ color: '#999', fontStyle: 'italic' }}>Tanpa Nama</span>}</td>
                 <td style={{ padding: '12px' }}>{user.email}</td>
                 <td style={{ padding: '12px' }}>
                   <span style={{ 
