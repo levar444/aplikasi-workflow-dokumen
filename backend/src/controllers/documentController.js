@@ -261,18 +261,7 @@ const submitDocument = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Dokumen tidak ditemukan.' });
     }
 
-    let nextStatus = bodyTargetStatus;
-    if (!nextStatus) {
-      if (doc.status === 'DRAFT_USER5' || doc.status === 'REVISION_USER5') nextStatus = 'SUBMITTED_TO_USER4';
-      else if (doc.status === 'DRAFT_USER4' || doc.status === 'REVISION_USER4') nextStatus = 'SUBMITTED_TO_USER3';
-      else if (doc.status === 'DRAFT_USER3' || doc.status === 'REVISION_USER3') nextStatus = 'SUBMITTED_TO_USER2';
-      else if (doc.status === 'DRAFT_USER2' || doc.status === 'REVISION_USER2') nextStatus = 'SUBMITTED_TO_USER1';
-    }
-
-    if (!nextStatus) {
-      return res.status(400).json({ success: false, message: 'Status tujuan pengiriman tidak valid.' });
-    }
-
+    // Hanya memperbarui status dan komentar saja
     const updated = await prisma.document.update({
       where: { id },
       data: { 
@@ -280,7 +269,7 @@ const submitDocument = async (req, res, next) => {
         comment: comment && comment.trim() !== '' ? comment : doc.comment 
       }
     });
-
+    
     let userId = req.user?.id;
     if (!userId) {
       const defaultUser = await prisma.user.findFirst();
