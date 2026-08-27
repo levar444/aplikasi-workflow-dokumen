@@ -186,8 +186,7 @@ export default function DashboardUser6() {
           
           <div style={{ marginBottom: '20px' }}>
             <p style={{ fontSize: '11px', color: '#9ca3af', textTransform: 'uppercase', fontWeight: 'bold', margin: '0 0 4px 0' }}>Pengguna</p>
-            <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#2563eb', display: 'block' }}>OPERATOR</span>
-            <span style={{ fontSize: '11px', color: '#4b5563', fontWeight: '600' }}></span>
+            <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#2563eb' }}>USER 6</span>
           </div>
 
           <div style={{ backgroundColor: '#f8fafc', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', marginBottom: '20px' }}>
@@ -201,7 +200,7 @@ export default function DashboardUser6() {
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <li>
               <button style={{ width: '100%', textAlign: 'left', padding: '10px 12px', backgroundColor: '#eff6ff', color: '#2563eb', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span>📊</span> OPERATOR
+                <span>📊</span> Dashboard User 6
               </button>
             </li>
           </ul>
@@ -216,7 +215,7 @@ export default function DashboardUser6() {
       {/* KONTEN UTAMA (KANAN) */}
       <div style={{ flex: 1, padding: '30px', overflowY: 'auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid #e5e7eb', paddingBottom: '15px' }}>
-          <h1 style={{ margin: 0, fontSize: '18px', color: '#1f2937' }}>Halo, Pengguna (OPERATOR)</h1>
+          <h1 style={{ margin: 0, fontSize: '18px', color: '#1f2937' }}>Halo, Pengguna (User 6)</h1>
           <img src={gambar2} alt="Logo Kanan" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '50%' }} />
         </div>
 
@@ -253,7 +252,7 @@ export default function DashboardUser6() {
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>Sudah Kirim ke User Berapa</th>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>File</th>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>Komentar (Jika Tidak Sesuai)</th>
-                  <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>Aksi / Alur Tujuan / Hapus</th>
+                  <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>Aksi / Tujuan Alur / Hapus</th>
                 </tr>
               </thead>
               <tbody>
@@ -264,10 +263,10 @@ export default function DashboardUser6() {
                 ) : (
                   data.map((doc) => {
                     const docTitle = doc.title || doc.documentData?.fullName || doc.documentData?.title || '-';
+                    const rawFilePath = doc.fileUpload?.filePath || doc.filePath || doc.file;
                     const creatorName = doc.user?.username || doc.creator || 'User 6 (Anda)';
                     const isAnimating = animatingId === doc.id;
                     const progressInfo = getProgressHistory(doc.status);
-                    const rawFilePath = doc.fileUpload?.filePath || doc.filePath || doc.file;
 
                     return (
                       <tr key={doc.id} className={isAnimating ? 'animate-approval' : ''}>
@@ -288,10 +287,10 @@ export default function DashboardUser6() {
                           />
                         </td>
                         <td style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>
-                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER1')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#059669', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>✨ Kirim U1</button>
-                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER2')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#2563eb', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U2</button>
-                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER3')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#d97706', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U3</button>
-                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER4')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U4</button>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER1')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#2563eb', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>✨ Kirim U1</button>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER2')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#0284c7', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U2</button>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER3')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#059669', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U3</button>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER4')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#d97706', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U4</button>
                           <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER5')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#7c3aed', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U5</button>
                           <button onClick={() => handleDelete(doc.id)} style={{ padding: '6px 8px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Hapus</button>
                         </td>
