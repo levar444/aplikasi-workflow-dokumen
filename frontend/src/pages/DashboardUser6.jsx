@@ -45,9 +45,6 @@ export default function DashboardUser6() {
       });
       const allDocs = res.data.data || res.data || [];
       
-      console.log("Semua dokumen dari server:", allDocs);
-      
-      // Menampilkan seluruh dokumen agar dokumen yang baru di-input langsung muncul di daftar
       setData(allDocs);
 
       const loadedComments = {};
@@ -291,8 +288,14 @@ export default function DashboardUser6() {
                           />
                         </td>
                         <td style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>
-                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER1')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#059669', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U1</button>
-                          <button onClick={() => handleDelete(doc.id)} style={{ padding: '6px 8px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Hapus</button>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', justifyContent: 'center' }}>
+                            <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER1')} style={{ padding: '4px 6px', backgroundColor: '#059669', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>U1</button>
+                            <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER2')} style={{ padding: '4px 6px', backgroundColor: '#0284c7', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>U2</button>
+                            <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER3')} style={{ padding: '4px 6px', backgroundColor: '#7c3aed', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>U3</button>
+                            <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER4')} style={{ padding: '4px 6px', backgroundColor: '#d97706', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>U4</button>
+                            <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER5')} style={{ padding: '4px 6px', backgroundColor: '#db2777', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>U5</button>
+                            <button onClick={() => handleDelete(doc.id)} style={{ padding: '4px 6px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Hapus</button>
+                          </div>
                         </td>
                       </tr>
                     );
