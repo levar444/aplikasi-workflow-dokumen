@@ -10,11 +10,10 @@ export default function AdminDashboard() {
   const [newRole, setNewRole] = useState('USER1');
   const navigate = useNavigate();
 
-  // 1. Ambil data semua user dari backend
+  // 1. Ambil data semua user dari backend menggunakan instance api yang otomatis mendeteksi Railway/Local
   const fetchUsers = async () => {
     try {
       const response = await api.get('/users');
-      console.log("DATA RESPON API USERS:", response.data); // Cek konsol browser untuk melihat struktur aslinya
       const userData = response.data.data || response.data;
       setUsers(userData);
       setLoading(false);
@@ -105,49 +104,46 @@ export default function AdminDashboard() {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => {
-              // Cari properti apa saja yang ada di dalam objek user ini untuk debugging
-              console.log("User Object:", user);
-              const displayName = user.name || user.Name || user.nama || user.USERNAME || user.username || JSON.stringify(user);
-
-              return (
-                <tr key={user.id || index} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
-                  <td style={{ padding: '12px' }}>{user.id}</td>
-                  <td style={{ padding: '12px' }}>{displayName}</td>
-                  <td style={{ padding: '12px' }}>{user.email}</td>
-                  <td style={{ padding: '12px' }}>
-                    <span style={{ 
-                      padding: '4px 8px', 
-                      borderRadius: '4px', 
-                      backgroundColor: user.role === 'ADMIN' ? '#dcfce7' : '#e2e8f0', 
+            {users.map((user, index) => (
+              <tr key={user.id} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
+                <td style={{ padding: '12px' }}>{user.id}</td>
+                {/* Menampilkan string nama secara aman atau fallback ke email jika kosong */}
+                <td style={{ padding: '12px' }}>
+                  {user.name || user.Name || user.nama || (user.email ? user.email.split('@')[0] : 'Tanpa Nama')}
+                </td>
+                <td style={{ padding: '12px' }}>{user.email}</td>
+                <td style={{ padding: '12px' }}>
+                  <span style={{ 
+                    padding: '4px 8px', 
+                    borderRadius: '4px', 
+                    backgroundColor: user.role === 'ADMIN' ? '#dcfce7' : '#e2e8f0', 
+                    fontWeight: 'bold',
+                    color: user.role === 'ADMIN' ? '#166534' : '#2d3748'
+                  }}>
+                    {user.role}
+                  </span>
+                </td>
+                <td style={{ padding: '12px', textAlign: 'center' }}>
+                  <button
+                    onClick={() => {
+                      setSelectedUser(user);
+                      setNewRole(user.role || 'USER1');
+                    }}
+                    style={{
+                      padding: '6px 14px',
+                      backgroundColor: '#ffc107',
+                      border: 'none',
+                      cursor: 'pointer',
+                      borderRadius: '4px',
                       fontWeight: 'bold',
-                      color: user.role === 'ADMIN' ? '#166534' : '#2d3748'
-                    }}>
-                      {user.role}
-                    </span>
-                  </td>
-                  <td style={{ padding: '12px', textAlign: 'center' }}>
-                    <button
-                      onClick={() => {
-                        setSelectedUser(user);
-                        setNewRole(user.role || 'USER1');
-                      }}
-                      style={{
-                        padding: '6px 14px',
-                        backgroundColor: '#ffc107',
-                        border: 'none',
-                        cursor: 'pointer',
-                        borderRadius: '4px',
-                        fontWeight: 'bold',
-                        color: '#333'
-                      }}
-                    >
-                      Ubah Role
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+                      color: '#333'
+                    }}
+                  >
+                    Ubah Role
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
