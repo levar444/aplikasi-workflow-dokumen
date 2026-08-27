@@ -159,10 +159,11 @@ const createDocument = async (req, res, next) => {
       userRole = defaultUser.role;
     }
 
-    // Menentukan status draft awal secara dinamis berdasarkan role user yang sedang login (Termasuk USER6)
+    // Penentuan status awal yang aman dan sesuai urutan role
     let initialStatus = 'DRAFT_USER4';
     if (userRole === 'USER6') initialStatus = 'DRAFT_USER6';
     else if (userRole === 'USER5') initialStatus = 'DRAFT_USER5';
+    else if (userRole === 'USER4') initialStatus = 'DRAFT_USER4';
     else if (userRole === 'USER3') initialStatus = 'DRAFT_USER3';
     else if (userRole === 'USER2') initialStatus = 'DRAFT_USER2';
 
@@ -265,6 +266,7 @@ const submitDocument = async (req, res, next) => {
 
     let nextStatus = bodyTargetStatus;
     if (!nextStatus) {
+      // Urutan mapping status yang runtut dari User 6 ke atas
       if (doc.status === 'DRAFT_USER6' || doc.status === 'REVISION_USER6') nextStatus = 'SUBMITTED_TO_USER5';
       else if (doc.status === 'DRAFT_USER5' || doc.status === 'REVISION_USER5') nextStatus = 'SUBMITTED_TO_USER4';
       else if (doc.status === 'DRAFT_USER4' || doc.status === 'REVISION_USER4') nextStatus = 'SUBMITTED_TO_USER3';
@@ -372,6 +374,7 @@ const revisionDocument = async (req, res, next) => {
     else if (userRole === 'USER2') { targetStatus = 'REVISION_USER3'; targetUserRole = 'USER3'; }
     else if (userRole === 'USER3') { targetStatus = 'REVISION_USER4'; targetUserRole = 'USER4'; }
     else if (userRole === 'USER4') { targetStatus = 'REVISION_USER5'; targetUserRole = 'USER5'; }
+    else if (userRole === 'USER5') { targetStatus = 'REVISION_USER6'; targetUserRole = 'USER6'; }
 
     const updated = await prisma.document.update({
       where: { id },
@@ -437,6 +440,7 @@ const rollbackDocument = async (req, res, next) => {
     else if (targetUser === 'USER3') { targetStatus = 'DRAFT_USER3'; message = 'Dikembalikan ke User 3.'; }
     else if (targetUser === 'USER4') { targetStatus = 'DRAFT_USER4'; message = 'Dikembalikan ke User 4.'; }
     else if (targetUser === 'USER5') { targetStatus = 'DRAFT_USER5'; message = 'Dikembalikan ke User 5.'; }
+    else if (targetUser === 'USER6') { targetStatus = 'DRAFT_USER6'; message = 'Dikembalikan ke User 6.'; }
     else { return res.status(400).json({ success: false, message: 'Target rollback tidak valid.' }); }
 
     const updated = await prisma.document.update({
@@ -481,6 +485,7 @@ const draftDocument = async (req, res, next) => {
     else if (doc.status === 'SUBMITTED_TO_USER2') targetStatus = 'DRAFT_USER3';
     else if (doc.status === 'SUBMITTED_TO_USER3') targetStatus = 'DRAFT_USER4';
     else if (doc.status === 'SUBMITTED_TO_USER4') targetStatus = 'DRAFT_USER5';
+    else if (doc.status === 'SUBMITTED_TO_USER5') targetStatus = 'DRAFT_USER6';
     else return res.status(400).json({ success: false, message: 'Status tidak valid untuk dijadikan draft.' });
 
     const updated = await prisma.document.update({
