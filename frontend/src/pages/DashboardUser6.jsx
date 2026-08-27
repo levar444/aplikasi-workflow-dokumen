@@ -50,11 +50,12 @@ export default function DashboardUser6() {
         const status = (doc.status || '').trim().toUpperCase();
         return (
           status === '' || 
-          status === 'DRAFT' || 
-          status === 'PENDING' || 
-          status === 'CREATED' || 
-          status === 'NEW' || 
-          status.includes('USER6')
+          status.includes('DRAFT') || 
+          status.includes('PENDING') || 
+          status.includes('CREATED') || 
+          status.includes('NEW') || 
+          status.includes('USER6') ||
+          status.includes('USER5') // Agar dokumen yang baru naik ke User 5 tetap terpantau oleh User 6 jika diperlukan
         );
       });
       
