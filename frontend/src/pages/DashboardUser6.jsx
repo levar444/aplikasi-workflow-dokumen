@@ -45,10 +45,6 @@ export default function DashboardUser6() {
       });
       const allDocs = res.data.data || res.data || [];
       
-      // === FILTER SPESIFIK USER 6 / DRAFT ===
-      // Dokumen hanya akan muncul jika:
-      // 1. Statusnya kosong atau DRAFT
-      // 2. Statusnya secara eksplisit mengandung kata 'USER6'
       const filtered = allDocs.filter(doc => {
         const status = (doc.status || '').trim().toUpperCase();
         return status === '' || status === 'DRAFT' || status.includes('USER6');
@@ -57,7 +53,7 @@ export default function DashboardUser6() {
       setData(filtered);
 
       const loadedComments = {};
-      allDocs.forEach(doc => {
+      filtered.forEach(doc => {
         if (doc.comment) {
           loadedComments[doc.id] = doc.comment;
         }
@@ -89,14 +85,12 @@ export default function DashboardUser6() {
       const formData = new FormData();
       formData.append('documentNumber', documentNumber);
       formData.append('title', title);
-      
-      if (file) {
-        formData.append('file', file);
-      }
+      if (file) formData.append('file', file);
 
       await api.post('/documents', formData, {
         headers: { 
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
         }
       });
 
@@ -104,14 +98,10 @@ export default function DashboardUser6() {
       setDocumentNumber('');
       setTitle('');
       setFile(null);
-
-      const fileInput = document.querySelector('input[type="file"]');
-      if (fileInput) fileInput.value = '';
-      
       fetchDocuments();
     } catch (err) {
       console.error("Gagal menyimpan dokumen:", err);
-      const errorMessage = err.response?.data?.message || 'Gagal menyimpan dokumen. Periksa kembali ukuran file atau format yang diizinkan.';
+      const errorMessage = err.response?.data?.message || 'Gagal menyimpan dokumen. Periksa kembali ukuran file atau nomor dokumen.';
       alert(errorMessage);
     }
   };
@@ -129,7 +119,7 @@ export default function DashboardUser6() {
       setTimeout(() => {
         alert('Dokumen berhasil diproses!');
         setAnimatingId(null);
-        fetchDocuments(); // Memuat ulang data sehingga dokumen langsung hilang dari tabel User 6 setelah dikirim
+        fetchDocuments();
       }, 400);
     } catch (err) {
       setAnimatingId(null);
@@ -197,6 +187,7 @@ export default function DashboardUser6() {
           <div style={{ marginBottom: '20px' }}>
             <p style={{ fontSize: '11px', color: '#9ca3af', textTransform: 'uppercase', fontWeight: 'bold', margin: '0 0 4px 0' }}>Pengguna</p>
             <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#2563eb', display: 'block' }}>OPERATOR</span>
+            <span style={{ fontSize: '11px', color: '#4b5563', fontWeight: '600' }}></span>
           </div>
 
           <div style={{ backgroundColor: '#f8fafc', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', marginBottom: '20px' }}>
@@ -259,10 +250,10 @@ export default function DashboardUser6() {
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>No. Dokumen</th>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>Judul</th>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>Asal File (Pembuat)</th>
-                  <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>Status / Progress</th>
+                  <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>Sudah Kirim ke User Berapa</th>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>File</th>
-                  <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>Komentar</th>
-                  <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>Aksi / Hapus</th>
+                  <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>Komentar (Jika Tidak Sesuai)</th>
+                  <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>Aksi / Alur Tujuan / Hapus</th>
                 </tr>
               </thead>
               <tbody>
@@ -297,14 +288,12 @@ export default function DashboardUser6() {
                           />
                         </td>
                         <td style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', justifyContent: 'center' }}>
-                            <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER1')} style={{ padding: '4px 6px', backgroundColor: '#059669', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>U1</button>
-                            <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER2')} style={{ padding: '4px 6px', backgroundColor: '#0284c7', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>U2</button>
-                            <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER3')} style={{ padding: '4px 6px', backgroundColor: '#7c3aed', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>U3</button>
-                            <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER4')} style={{ padding: '4px 6px', backgroundColor: '#d97706', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>U4</button>
-                            <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER5')} style={{ padding: '4px 6px', backgroundColor: '#db2777', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>U5</button>
-                            <button onClick={() => handleDelete(doc.id)} style={{ padding: '4px 6px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Hapus</button>
-                          </div>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER1')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#059669', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>✨ Kirim U1</button>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER2')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#2563eb', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U2</button>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER3')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#d97706', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U3</button>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTD_TO_USER4')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U4</button>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER5')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#7c3aed', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Kirim U5</button>
+                          <button onClick={() => handleDelete(doc.id)} style={{ padding: '6px 8px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Hapus</button>
                         </td>
                       </tr>
                     );
