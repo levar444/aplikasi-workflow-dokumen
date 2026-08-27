@@ -172,7 +172,8 @@ export default function AdminDashboard() {
                 <option value="USER2">VALIDATOR TATA USAHA</option>
                 <option value="USER3">VALIDATOR INFORMASI & DISTRIBUSI</option>
                 <option value="USER4">VALIDATOR MANAJEMEN PEMELIHARAAN TERNAK</option>
-                <option value="USER5">OPERATOR PRODUKSI & TRANSFER EMBRIO</option>
+                <option value="USER5">VALIDATOR PRODUKSI & TRANSFER EMBRIO</option>
+                <option value="USER6">OPERATOR</option>
               </select>
             </div>
 
