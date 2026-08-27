@@ -171,7 +171,6 @@ export default function AdminDashboard() {
                 <option value="USER1">APPROVAL</option>
                 <option value="USER2">VALIDATOR</option>
                 <option value="USER3">OPERATOR</option>
-              
               </select>
             </div>
 
