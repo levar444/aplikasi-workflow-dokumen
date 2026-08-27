@@ -85,12 +85,15 @@ export default function DashboardUser6() {
       const formData = new FormData();
       formData.append('documentNumber', documentNumber);
       formData.append('title', title);
-      if (file) formData.append('file', file);
+      
+      if (file) {
+        formData.append('file', file);
+      }
 
+      // Jangan set 'Content-Type' secara manual agar Axios otomatis mengatur boundary FormData
       await api.post('/documents', formData, {
         headers: { 
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data'
+          'Authorization': `Bearer ${token}`
         }
       });
 
@@ -98,10 +101,15 @@ export default function DashboardUser6() {
       setDocumentNumber('');
       setTitle('');
       setFile(null);
+      
+      // Reset elemen input file pada DOM
+      const fileInput = document.querySelector('input[type="file"]');
+      if (fileInput) fileInput.value = '';
+
       fetchDocuments();
     } catch (err) {
       console.error("Gagal menyimpan dokumen:", err);
-      const errorMessage = err.response?.data?.message || 'Gagal menyimpan dokumen. Periksa kembali ukuran file atau nomor dokumen.';
+      const errorMessage = err.response?.data?.message || 'Gagal menyimpan dokumen. Periksa kembali ukuran file atau format yang diizinkan.';
       alert(errorMessage);
     }
   };
