@@ -45,9 +45,17 @@ export default function DashboardUser6() {
       });
       const allDocs = res.data.data || res.data || [];
       
+      // DIPERBAIKI: Menambahkan 'PENDING', 'CREATED', dan 'NEW' agar dokumen baru langsung muncul
       const filtered = allDocs.filter(doc => {
         const status = (doc.status || '').trim().toUpperCase();
-        return status === '' || status === 'DRAFT' || status.includes('USER6');
+        return (
+          status === '' || 
+          status === 'DRAFT' || 
+          status === 'PENDING' || 
+          status === 'CREATED' || 
+          status === 'NEW' || 
+          status.includes('USER6')
+        );
       });
       
       setData(filtered);
@@ -160,7 +168,10 @@ export default function DashboardUser6() {
     return status;
   };
 
-  const draftCount = data.filter(d => (d.status || '').trim().toLowerCase() === 'draft' || !(d.status)).length;
+  const draftCount = data.filter(d => {
+    const s = (d.status || '').trim().toLowerCase();
+    return s === 'draft' || s === 'pending' || s === 'created' || s === 'new' || !d.status;
+  }).length;
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f3f4f6', fontFamily: 'sans-serif', margin: 0 }}>
