@@ -5,13 +5,13 @@ const prisma = new PrismaClient();
 const getUsers = async (req, res, next) => {
   try {
     const users = await prisma.user.findMany({
-      // Ubah 'name' menjadi 'Name' sesuai database Railway Anda
+      // Ubah 'name' menjadi 'Name' sesuai database Railway
       select: { id: true, Name: true, email: true, role: true, createdAt: true },
     });
-    // Mapping agar frontend tetap menerima properti 'name' (huruf kecil)
+    // Mapping agar properti kembali menjadi 'name' untuk frontend
     const formattedUsers = users.map(user => ({
       ...user,
-      name: user.Name // Menyocokkan dengan frontend
+      name: user.Name
     }));
     res.json({ success: true, data: formattedUsers });
   } catch (error) {
@@ -24,7 +24,6 @@ const createUser = async (req, res, next) => {
     const { name, email, password, role } = req.body;
     const hashedPassword = await bcrypt.hash(password || 'password123', 10);
     const user = await prisma.user.create({
-      // Gunakan 'Name' untuk mencocokkan kolom di database Railway
       data: { Name: name, email, password: hashedPassword, role: role || 'USER4' },
     });
     res.status(201).json({ success: true, data: user });
@@ -39,7 +38,6 @@ const updateUser = async (req, res, next) => {
     const { name, email, role } = req.body;
     const user = await prisma.user.update({
       where: { id },
-      // Gunakan 'Name' untuk mencocokkan kolom di database Railway
       data: { Name: name, email, role },
     });
     res.json({ success: true, data: user });
