@@ -108,7 +108,7 @@ export default function AdminDashboard() {
               <tr key={user.id} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
                 <td style={{ padding: '12px' }}>{user.id}</td>
                 {/* Mengambil tepat dari properti name database */}
-                <td style={{ padding: '12px' }}>{user.name}</td>
+                <td style={{ padding: '12px' }}>{user.Name}</td>
                 <td style={{ padding: '12px' }}>{user.email}</td>
                 <td style={{ padding: '12px' }}>
                   <span style={{ 
