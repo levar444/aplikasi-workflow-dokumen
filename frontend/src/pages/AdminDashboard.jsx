@@ -14,7 +14,6 @@ export default function AdminDashboard() {
   const fetchUsers = async () => {
     try {
       const response = await api.get('/users');
-      // Menyesuaikan berbagai kemungkinan format bungkus data dari response backend
       const userData = response.data.data || response.data.users || response.data;
       setUsers(Array.isArray(userData) ? userData : []);
       setLoading(false);
@@ -108,7 +107,7 @@ export default function AdminDashboard() {
             {users.map((user, index) => (
               <tr key={user.id || index} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
                 <td style={{ padding: '12px' }}>{user.id}</td>
-                {/* Mencakup semua variasi key nama agar tidak kosong */}
+                {/* Mengambil nilai kolom name dari database railway */}
                 <td style={{ padding: '12px' }}>
                   {user.name || user.Name || user.nama || '-'}
                 </td>
