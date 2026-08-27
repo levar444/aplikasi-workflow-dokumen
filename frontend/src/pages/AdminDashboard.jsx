@@ -10,21 +10,25 @@ export default function AdminDashboard() {
   const [newRole, setNewRole] = useState('USER1');
   const navigate = useNavigate();
 
-  // Fungsi helper untuk mengubah format blob / buffer / object biner menjadi teks string
-  const formatBlobName = (blobData) => {
-    if (!blobData) return '-';
-    // Jika bentuknya sudah string biasa
-    if (typeof blobData === 'string') return blobData;
-    // Jika bentuknya buffer atau array biner dari tipe data blob
+  // Fungsi helper untuk mengubah berbagai format data teks/buffer dari kolom tipe text database
+  const formatTextName = (val) => {
+    if (!val) return '-';
+    if (typeof val === 'string') return val;
+    
+    // Jika tipe text terbaca sebagai objek/buffer biner
     try {
-      if (blobData.data && Array.isArray(blobData.data)) {
-        return String.fromCharCode.apply(null, blobData.data);
+      if (val.data && Array.isArray(val.data)) {
+        return String.fromCharCode.apply(null, val.data);
       }
-      // Jika berupa objek JSON atau serialized buffer lainnya
-      return JSON.stringify(blobData);
+      if (typeof val === 'object') {
+        return val.type === 'Buffer' && Array.isArray(val.data)
+          ? String.fromCharCode.apply(null, val.data)
+          : JSON.stringify(val);
+      }
     } catch (e) {
-      return 'VALIDATOR'; // Fallback teks default jika blob gagal di-decode
+      console.error('Gagal parsing text:', e);
     }
+    return String(val);
   };
 
   // 1. Ambil data semua user dari backend
@@ -53,7 +57,7 @@ export default function AdminDashboard() {
       await api.put(
         `/users/${selectedUser.id}`,
         {
-          name: formatBlobName(selectedUser.Name || selectedUser.nama),
+          name: formatTextName(selectedUser.Name || selectedUser.nama || selectedUser.name),
           email: selectedUser.email,
           role: newRole,
           isActive: selectedUser.isActive
@@ -125,9 +129,9 @@ export default function AdminDashboard() {
               <tr key={user.id || index} style={{ borderBottom: '1px solid #ddd', backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
                 <td style={{ padding: '12px' }}>{user.id}</td>
                 
-                {/* Menampilkan teks dari kolom blob Name / nama */}
+                {/* Menampilkan isi teks dari kolom tipe text Name / nama */}
                 <td style={{ padding: '12px', fontWeight: 'bold' }}>
-                  {formatBlobName(user.Name || user.nama || user.name)}
+                  {formatTextName(user.Name || user.nama || user.name)}
                 </td>
 
                 <td style={{ padding: '12px' }}>{user.email}</td>
