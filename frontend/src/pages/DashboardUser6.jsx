@@ -95,10 +95,10 @@ export default function DashboardUser6() {
       setDocumentNumber('');
       setTitle('');
       setFile(null);
-      
-      const fileInput = document.querySelector('input[type="file"]');
-      if (fileInput) fileInput.value = '';
 
+      const fileInput = document.querySelector('input[type="file"]');
+      if (fileInput) fileInput.value = ''; // <-- Baris ini membersihkan file yang dipilih di browser
+      
       fetchDocuments();
     } catch (err) {
       console.error("Gagal menyimpan dokumen:", err);
