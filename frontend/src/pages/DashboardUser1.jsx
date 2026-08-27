@@ -194,6 +194,7 @@ export default function DashboardUser1() {
                 <tr style={{ backgroundColor: '#f3f4f6', textAlign: 'left' }}>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>No. Dokumen</th>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>Judul</th>
+                  <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}></th>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>Sudah Kirim ke User Berapa</th>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>File</th>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>Komentar (Jika Tidak Sesuai)</th>
