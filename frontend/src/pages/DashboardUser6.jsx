@@ -242,7 +242,7 @@ export default function DashboardUser6() {
           <form onSubmit={handleSaveDocument} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr auto', gap: '15px', alignItems: 'end' }}>
             <div>
               <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', color: '#4b5563', marginBottom: '5px' }}>No. Dokumen</label>
-              <input type="text" placeholder="Contoh: DOC/001" value={documentNumber} onChange={(e) => setDocumentNumber(e.target.value)} style={{ width: '100%', padding: '8px 12px', border: '1px solid #60ef99', borderRadius: '6px', fontSize: '13px', boxSizing: 'border-box' }} />
+              <input type="text" placeholder="Contoh: DOC/001" value={documentNumber} onChange={(e) => setDocumentNumber(e.target.value)} style={{ width: '100%', padding: '8px 12px', border: '1px solid #ffffff', borderRadius: '6px', fontSize: '13px', boxSizing: 'border-box' }} />
             </div>
             <div>
               <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', color: '#4b5563', marginBottom: '5px' }}>Judul Dokumen</label>
