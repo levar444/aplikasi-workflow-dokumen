@@ -258,7 +258,7 @@ export default function DashboardUser3() {
           <div style={{ width: '100%', overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '950px' }}>
               <thead>
-                <tr style={{ backgroundColor: '#f3f4f6', textAlign: 'left' }}>
+                <tr style={{ backgroundColor: '#60ef99', textAlign: 'left' }}>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>No. Dokumen</th>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>Judul</th>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>Asal File (Pembuat)</th>
