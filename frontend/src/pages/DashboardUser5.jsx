@@ -180,7 +180,7 @@ export default function DashboardUser5() {
   }).length;
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f3f4f6', fontFamily: 'sans-serif', margin: 0 }}>
+    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#002a7e', fontFamily: 'sans-serif', margin: 0 }}>
       <style>{`
         @keyframes pulseGlow {
           0% { background-color: #e0f2fe; transform: scale(1); }
