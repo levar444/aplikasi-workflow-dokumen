@@ -2,7 +2,6 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const { logWorkflow, notifyTargetRole } = require('../services/workflowService');
 
-
 // =====================================================
 // GET ALL DOCUMENTS
 // =====================================================
@@ -66,7 +65,6 @@ const getDocuments = async (req, res, next) => {
   }
 };
 
-
 // =====================================================
 // GET DOCUMENT BY ID
 // =====================================================
@@ -119,7 +117,6 @@ const getDocumentById = async (req, res, next) => {
   }
 };
 
-
 // =====================================================
 // CREATE DOCUMENT
 // =====================================================
@@ -159,7 +156,6 @@ const createDocument = async (req, res, next) => {
       userRole = defaultUser.role;
     }
 
-    // Penentuan status awal yang aman dan sesuai urutan role
     let initialStatus = 'DRAFT_USER4';
     if (userRole === 'USER6') initialStatus = 'DRAFT_USER6';
     else if (userRole === 'USER5') initialStatus = 'DRAFT_USER5';
@@ -219,7 +215,6 @@ const createDocument = async (req, res, next) => {
   }
 };
 
-
 // =====================================================
 // UPDATE DOCUMENT
 // =====================================================
@@ -250,9 +245,8 @@ const updateDocument = async (req, res, next) => {
   }
 };
 
-
 // =====================================================
-// SUBMIT DOCUMENT (Menyimpan comment)
+// SUBMIT DOCUMENT
 // =====================================================
 const submitDocument = async (req, res, next) => {
   try {
@@ -266,7 +260,6 @@ const submitDocument = async (req, res, next) => {
 
     let nextStatus = bodyTargetStatus;
     if (!nextStatus) {
-      // Urutan mapping status yang runtut dari User 6 ke atas
       if (doc.status === 'DRAFT_USER6' || doc.status === 'REVISION_USER6') nextStatus = 'SUBMITTED_TO_USER5';
       else if (doc.status === 'DRAFT_USER5' || doc.status === 'REVISION_USER5') nextStatus = 'SUBMITTED_TO_USER4';
       else if (doc.status === 'DRAFT_USER4' || doc.status === 'REVISION_USER4') nextStatus = 'SUBMITTED_TO_USER3';
@@ -305,9 +298,8 @@ const submitDocument = async (req, res, next) => {
   }
 };
 
-
 // =====================================================
-// APPROVE DOCUMENT (Menyimpan comment)
+// APPROVE DOCUMENT
 // =====================================================
 const approveDocument = async (req, res, next) => {
   try {
@@ -347,7 +339,6 @@ const approveDocument = async (req, res, next) => {
     next(error);
   }
 };
-
 
 // =====================================================
 // REVISION DOCUMENT
@@ -397,7 +388,6 @@ const revisionDocument = async (req, res, next) => {
   }
 };
 
-
 // =====================================================
 // GET DOCUMENT HISTORY
 // =====================================================
@@ -417,9 +407,8 @@ const getDocumentHistory = async (req, res, next) => {
   }
 };
 
-
 // =====================================================
-// ROLLBACK DOCUMENT (Menyimpan comment)
+// ROLLBACK DOCUMENT
 // =====================================================
 const rollbackDocument = async (req, res, next) => {
   try {
@@ -464,7 +453,6 @@ const rollbackDocument = async (req, res, next) => {
   }
 };
 
-
 // =====================================================
 // DRAFT DOCUMENT
 // =====================================================
@@ -502,7 +490,6 @@ const draftDocument = async (req, res, next) => {
   }
 };
 
-
 // =====================================================
 // DELETE & RESTORE DOCUMENT
 // =====================================================
@@ -532,10 +519,6 @@ const restoreDocument = async (req, res, next) => {
   }
 };
 
-
-// =====================================================
-// EXPORTS
-// =====================================================
 module.exports = {
   getDocuments,
   getDocumentById,
