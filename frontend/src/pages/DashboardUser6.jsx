@@ -45,8 +45,8 @@ export default function DashboardUser6() {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const allDocs = res.data.data || res.data || [];
-      
-      // PERBAIKAN: Menambahkan status DRAFT, PENDING, dan CREATED agar dokumen yang baru di-input tidak terfilter keluar (hilang)
+
+      // Bagian filter status yang diperbarui
       const filtered = allDocs.filter(doc => {
         const status = (doc.status || '').trim().toUpperCase();
         return (
@@ -54,14 +54,16 @@ export default function DashboardUser6() {
           status === 'DRAFT' || 
           status === 'PENDING' || 
           status === 'CREATED' || 
-          status.includes('DRAFT_USER6') || 
-          status.includes('REVISION_USER6') ||
-          status.includes('USER6')
+          status === 'NEW' ||
+          status === 'WAITING' ||
+          status.includes('USER6') || // Sesuaikan dengan nomor user Anda (misal: USER6)
+          status.includes('DRAFT') ||
+          status.includes('REVISION')
         );
       });
-      
-      setData(filtered);
 
+      setData(filtered);
+      // ... sisa kodenya
       const loadedComments = {};
       filtered.forEach(doc => {
         if (doc.comment) {

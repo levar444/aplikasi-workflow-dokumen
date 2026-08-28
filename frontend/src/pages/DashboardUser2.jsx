@@ -9,11 +9,11 @@ export default function DashboardUser2() {
   const [loading, setLoading] = useState(false);
   const [animatingId, setAnimatingId] = useState(null);
   const [comments, setComments] = useState({});
-  
+
   const [documentNumber, setDocumentNumber] = useState('');
   const [title, setTitle] = useState('');
   const [file, setFile] = useState(null);
-  
+  const fileInputRef = useRef(null); // <-- Letakkan di sini
   const navigate = useNavigate();
 
   const getFileUrl = (filePath) => {
@@ -44,14 +44,25 @@ export default function DashboardUser2() {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const allDocs = res.data.data || res.data || [];
-      
+
+      // Bagian filter status yang diperbarui
       const filtered = allDocs.filter(doc => {
         const status = (doc.status || '').trim().toUpperCase();
-        return status === '' || status === 'DRAFT' || status.includes('USER2');
+        return (
+          status === '' || 
+          status === 'DRAFT' || 
+          status === 'PENDING' || 
+          status === 'CREATED' || 
+          status === 'NEW' ||
+          status === 'WAITING' ||
+          status.includes('USER5') || // Sesuaikan dengan nomor user Anda (misal: USER6)
+          status.includes('DRAFT') ||
+          status.includes('REVISION')
+        );
       });
-      
-      setData(filtered);
 
+      setData(filtered);
+      // ... sisa kodenya
       const loadedComments = {};
       filtered.forEach(doc => {
         if (doc.comment) {
