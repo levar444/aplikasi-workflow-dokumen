@@ -228,7 +228,7 @@ export default function DashboardUser3() {
       {/* KONTEN UTAMA (KANAN) */}
       <div style={{ flex: 1, padding: '30px', overflowY: 'auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid #e5e7eb', paddingBottom: '15px' }}>
-          <h1 style={{ margin: 0, fontSize: '18px', color: '#1f2937' }}>Halo, Pengguna (ID)</h1>
+          <h1 style={{ margin: 0, fontSize: '18px', color: '#f7f9fb' }}>Halo, Pengguna (ID)</h1>
           <img src={gambar2} alt="Logo Kanan" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '50%' }} />
         </div>
 
