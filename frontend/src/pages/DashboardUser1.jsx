@@ -127,7 +127,7 @@ export default function DashboardUser1() {
   const pendingDocs = totalDocs - approvedDocs;
 
   return (
-    <div style={{ display: 'flex', height: '100vh', backgroundColor: '#002a7e', fontFamily: 'sans-serif', margin: 0, overflow: 'hidden' }}>
+    <div style={{ display: 'flex', height: '100vh', backgroundColor: '#76abdf', fontFamily: 'sans-serif', margin: 0, overflow: 'hidden' }}>
       <style>{`
         @keyframes pulseGlow {
           0% { background-color: #f3f4f6; transform: scale(1); }
