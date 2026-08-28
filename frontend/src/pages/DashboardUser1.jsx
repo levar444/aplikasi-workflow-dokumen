@@ -140,7 +140,7 @@ export default function DashboardUser1() {
       `}</style>
 
       {/* SIDEBAR (KIRI) */}
-      <div style={{ width: '260px', backgroundColor: '#00e1ff', borderRight: '1px solid #e5e7eb', padding: '24px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxSizing: 'border-box', height: '100%' }}>
+      <div style={{ width: '260px', backgroundColor: '#9FCECE', borderRight: '1px solid #e5e7eb', padding: '24px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxSizing: 'border-box', height: '100%' }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
             <img src={gambar1} alt="Logo Kiri" style={{ width: '32px', height: '32px', objectFit: 'contain', borderRadius: '4px' }} />
