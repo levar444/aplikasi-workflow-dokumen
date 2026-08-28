@@ -130,9 +130,9 @@ export default function DashboardUser1() {
     <div style={{ display: 'flex', height: '100vh', backgroundColor: '#f3f4f6', fontFamily: 'sans-serif', margin: 0, overflow: 'hidden' }}>
       <style>{`
         @keyframes pulseGlow {
-          0% { background-color: #0099ff; transform: scale(1); }
-          50% { background-color: #00a6ff; transform: scale(1.01); }
-          100% { background-color: #1aff00; transform: scale(1); }
+          0% { background-color: #f3f4f6; transform: scale(1); }
+          50% { background-color: #f3f4f6; transform: scale(1.01); }
+          100% { background-color: #f3f4f6; transform: scale(1); }
         }
         .animate-approval { animation: pulseGlow 0.6s ease-in-out; }
         button { transition: all 0.2s ease-in-out; }
