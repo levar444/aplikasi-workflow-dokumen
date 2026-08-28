@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import gambar1 from '../assets/gambar1.jpeg';
@@ -13,6 +13,7 @@ export default function DashboardUser5() {
   const [documentNumber, setDocumentNumber] = useState('');
   const [title, setTitle] = useState('');
   const [file, setFile] = useState(null);
+  const fileInputRef = useRef(null); // Ref untuk mereset input file secara bersih
   
   const navigate = useNavigate();
 
@@ -45,15 +46,19 @@ export default function DashboardUser5() {
       });
       const allDocs = res.data.data || res.data || [];
       
+      // PERBAIKAN: Menambahkan status DRAFT, PENDING, dan CREATED agar dokumen baru tidak terfilter keluar
       const filtered = allDocs.filter(doc => {
-      const status = (doc.status || '').trim().toUpperCase();
-      return (
-      status === '' || 
-      status.includes('DRAFT_USER5') || 
-      status.includes('REVISION_USER5') ||
-      status.includes('USER5')
-      );
-    });
+        const status = (doc.status || '').trim().toUpperCase();
+        return (
+          status === '' || 
+          status === 'DRAFT' || 
+          status === 'PENDING' || 
+          status === 'CREATED' || 
+          status.includes('DRAFT_USER5') || 
+          status.includes('REVISION_USER5') ||
+          status.includes('USER5')
+        );
+      });
       
       setData(filtered);
 
@@ -103,6 +108,9 @@ export default function DashboardUser5() {
       setDocumentNumber('');
       setTitle('');
       setFile(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''; // Reset tampilan form input file
+      }
       fetchDocuments();
     } catch (err) {
       console.error("Gagal menyimpan dokumen:", err);
@@ -164,7 +172,10 @@ export default function DashboardUser5() {
     return status;
   };
 
-  const draftCount = data.filter(d => (d.status || '').trim().toLowerCase() === 'draft' || !(d.status)).length;
+  const draftCount = data.filter(d => {
+    const s = (d.status || '').trim().toLowerCase();
+    return s === 'draft' || s === 'pending' || s === 'created' || s === 'new' || !d.status;
+  }).length;
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f3f4f6', fontFamily: 'sans-serif', margin: 0 }}>
@@ -237,7 +248,7 @@ export default function DashboardUser5() {
             </div>
             <div>
               <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', color: '#4b5563', marginBottom: '5px' }}>Upload File</label>
-              <input type="file" onChange={(e) => setFile(e.target.files[0])} style={{ width: '100%', fontSize: '12px' }} />
+              <input type="file" ref={fileInputRef} onChange={(e) => setFile(e.target.files[0])} style={{ width: '100%', fontSize: '12px' }} />
             </div>
             <div>
               <button type="submit" style={{ padding: '9px 16px', backgroundColor: '#2563eb', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Simpan Dokumen</button>
