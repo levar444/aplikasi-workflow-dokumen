@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import gambar1 from '../assets/gambar1.jpeg';
@@ -13,7 +13,8 @@ export default function DashboardUser4() {
   const [documentNumber, setDocumentNumber] = useState('');
   const [title, setTitle] = useState('');
   const [file, setFile] = useState(null);
-  const fileInputRef = useRef(null); // <-- Letakkan di sini
+  const fileInputRef = useRef(null);
+  const navigate = useNavigate();
 
   const getFileUrl = (filePath) => {
     if (!filePath) return null;
@@ -44,7 +45,6 @@ export default function DashboardUser4() {
       });
       const allDocs = res.data.data || res.data || [];
 
-      // Bagian filter status yang diperbarui
       const filtered = allDocs.filter(doc => {
         const status = (doc.status || '').trim().toUpperCase();
         return (
@@ -54,14 +54,13 @@ export default function DashboardUser4() {
           status === 'CREATED' || 
           status === 'NEW' ||
           status === 'WAITING' ||
-          status.includes('USER4') || // Sesuaikan dengan nomor user Anda (misal: USER6)
+          status.includes('USER4') ||
           status.includes('DRAFT') ||
           status.includes('REVISION')
         );
       });
 
       setData(filtered);
-      // ... sisa kodenya
       const loadedComments = {};
       filtered.forEach(doc => {
         if (doc.comment) {
@@ -108,6 +107,9 @@ export default function DashboardUser4() {
       setDocumentNumber('');
       setTitle('');
       setFile(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
       fetchDocuments();
     } catch (err) {
       console.error("Gagal menyimpan dokumen:", err);
@@ -166,6 +168,7 @@ export default function DashboardUser4() {
     if (s.includes('USER3')) return 'Sudah dikirim ke User 3';
     if (s.includes('USER4')) return 'Sudah di User 4 (Officer)';
     if (s.includes('USER5')) return 'Sudah dikirim ke User 5';
+    if (s.includes('USER6')) return 'Sudah dikirim ke User 6';
     return status;
   };
 
@@ -242,7 +245,7 @@ export default function DashboardUser4() {
             </div>
             <div>
               <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', color: '#4b5563', marginBottom: '5px' }}>Upload File</label>
-              <input type="file" onChange={(e) => setFile(e.target.files[0])} style={{ width: '100%', fontSize: '12px' }} />
+              <input type="file" ref={fileInputRef} onChange={(e) => setFile(e.target.files[0])} style={{ width: '100%', fontSize: '12px' }} />
             </div>
             <div>
               <button type="submit" style={{ padding: '9px 16px', backgroundColor: '#2563eb', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Simpan Dokumen</button>
