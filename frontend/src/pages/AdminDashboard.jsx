@@ -83,9 +83,10 @@ export default function AdminDashboard() {
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           <button onClick={() => navigate('/dashboard/user1')} style={styles.navBtn}>KEPALA BALAI</button>
           <button onClick={() => navigate('/dashboard/user2')} style={styles.navBtn}>TATA USAHA</button>
-          <button onClick={() => navigate('/dashboard/user3')} style={styles.navBtn}>INFOMASI & DISTRIBUSI</button>
+          <button onClick={() => navigate('/dashboard/user3')} style={styles.navBtn}>INFORMASI & DISTRIBUSI</button>
           <button onClick={() => navigate('/dashboard/user4')} style={styles.navBtn}>MANAJEMEN PEMELIHARAAN TERNAK</button>
           <button onClick={() => navigate('/dashboard/user5')} style={styles.navBtn}>PRODUKSI & TRANSFER EMBRIO</button>
+          <button onClick={() => navigate('/dashboard/user6')} style={styles.navBtn}>OPERATOR</button>
         </div>
       </div>
 
@@ -174,6 +175,7 @@ export default function AdminDashboard() {
                 <option value="USER3">VALIDATOR INFORMASI & DISTRIBUSI</option>
                 <option value="USER4">VALIDATOR MANAJEMEN PEMELIHARAAN TERNAK</option>
                 <option value="USER5">VALIDATOR PRODUKSI & TRANSFER EMBRIO</option>
+                <option value="USER6">OPERATOR</option>
               </select>
             </div>
 
