@@ -46,9 +46,14 @@ export default function DashboardUser5() {
       const allDocs = res.data.data || res.data || [];
       
       const filtered = allDocs.filter(doc => {
-        const status = (doc.status || '').trim().toUpperCase();
-        return status === '' || status === 'DRAFT' || status.includes('USER5');
-      });
+      const status = (doc.status || '').trim().toUpperCase();
+      return (
+      status === '' || 
+      status.includes('DRAFT_USER5') || 
+      status.includes('REVISION_USER5') ||
+      status.includes('USER5')
+      );
+    });
       
       setData(filtered);
 
@@ -291,7 +296,7 @@ export default function DashboardUser5() {
                           <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER2')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#2563eb', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>TU</button>
                           <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER3')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#d97706', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>ID</button>
                           <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER4')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>MPT</button>
-                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER6')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>OPEERATOR</button>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER6')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>OPERATOR</button>
                           <button onClick={() => handleDelete(doc.id)} style={{ padding: '6px 8px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Hapus</button>
                         </td>
                       </tr>

@@ -45,17 +45,13 @@ export default function DashboardUser6() {
       });
       const allDocs = res.data.data || res.data || [];
       
-      // DIPERBAIKI: Menambahkan 'PENDING', 'CREATED', dan 'NEW' agar dokumen baru langsung muncul
       const filtered = allDocs.filter(doc => {
         const status = (doc.status || '').trim().toUpperCase();
         return (
           status === '' || 
-          status.includes('DRAFT') || 
-          status.includes('PENDING') || 
-          status.includes('CREATED') || 
-          status.includes('NEW') || 
-          status.includes('USER6') ||
-          status.includes('USER5') // Agar dokumen yang baru naik ke User 5 tetap terpantau oleh User 6 jika diperlukan
+          status.includes('DRAFT_USER6') || 
+          status.includes('REVISION_USER6') ||
+          status.includes('USER6')
         );
       });
       
@@ -264,7 +260,7 @@ export default function DashboardUser6() {
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>Sudah Kirim ke User Berapa</th>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>File</th>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>Komentar (Jika Tidak Sesuai)</th>
-                  <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>Aksi / Tujuan Alur / Hapus</th>
+                  <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>Aksi / Alur Tujuan / Hapus</th>
                 </tr>
               </thead>
               <tbody>
@@ -275,10 +271,10 @@ export default function DashboardUser6() {
                 ) : (
                   data.map((doc) => {
                     const docTitle = doc.title || doc.documentData?.fullName || doc.documentData?.title || '-';
-                    const rawFilePath = doc.fileUpload?.filePath || doc.filePath || doc.file;
                     const creatorName = doc.user?.username || doc.creator || 'User 6 (Anda)';
                     const isAnimating = animatingId === doc.id;
                     const progressInfo = getProgressHistory(doc.status);
+                    const rawFilePath = doc.fileUpload?.filePath || doc.filePath || doc.file;
 
                     return (
                       <tr key={doc.id} className={isAnimating ? 'animate-approval' : ''}>
@@ -299,10 +295,10 @@ export default function DashboardUser6() {
                           />
                         </td>
                         <td style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px', textAlign: 'center' }}>
-                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER1')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#2563eb', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>✨ KEPALA BALAI</button>
-                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER2')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#0284c7', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>TU</button>
-                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER3')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#059669', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>ID</button>
-                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER4')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#d97706', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>MPT</button>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER1')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#059669', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>✨ KEPALA BALAI</button>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER2')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#2563eb', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>TU</button>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER3')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#d97706', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>ID</button>
+                          <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER4')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>MPT</button>
                           <button onClick={() => handleAction(doc.id, 'SUBMITTED_TO_USER5')} style={{ marginRight: '4px', marginBottom: '4px', padding: '6px 8px', backgroundColor: '#7c3aed', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>PTE</button>
                           <button onClick={() => handleDelete(doc.id)} style={{ padding: '6px 8px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px' }}>Hapus</button>
                         </td>
