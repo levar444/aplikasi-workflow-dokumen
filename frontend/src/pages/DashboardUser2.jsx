@@ -232,7 +232,7 @@ export default function DashboardUser2() {
           <img src={gambar2} alt="Logo Kanan" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '50%' }} />
         </div>
 
-        <div style={{ backgroundColor: '#7abe6e', padding: '20px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '25px' }}>
+        <div style={{ backgroundColor: '#ade9a2', padding: '20px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '25px' }}>
           <h3 style={{ margin: '0 0 15px 0', fontSize: '15px', color: '#1f2937' }}>Buat / Input Dokumen Baru</h3>
           <form onSubmit={handleSaveDocument} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr auto', gap: '15px', alignItems: 'end' }}>
             <div>
@@ -258,7 +258,7 @@ export default function DashboardUser2() {
           <div style={{ width: '100%', overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '950px' }}>
               <thead>
-                <tr style={{ backgroundColor: '#60ef99', textAlign: 'left' }}>
+                <tr style={{ backgroundColor: '#ade9a2', textAlign: 'left' }}>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>No. Dokumen</th>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>Judul</th>
                   <th style={{ padding: '12px', borderBottom: '1px solid #e5e7eb', fontSize: '13px' }}>Asal File (Pembuat)</th>
